@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Driver Queue</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    /* ── DARK MODE (default) ── */
+    --bg:       #0a0a0f;
+    --surface:  #13131a;
+    --surface2: #1c1c28;
+    --border:   #2a2a3d;
+    --border2:  #3d3d5c;
+    --text:     #e8e8f0;
+    --sub:      #7070a0;
+    --muted:    #40405a;
+
+    --wait-bg:  #1a150a;
+    --wait-bdr: #f59e0b;
+    --wait-txt: #fbbf24;
+
+    --slot-bg:  #0a1020;
+    --slot-bdr: #3b82f6;
+    --slot-txt: #60a5fa;
+
+    --done-bg:  #0a1a0e;
+    --done-bdr: #22c55e;
+    --done-txt: #4ade80;
+
+    --accent:   #6366f1;
+    --accent2:  #818cf8;
+
+    --theme-icon: '🌙';
+  }
+
+  html[data-theme="light"] {
+    --bg:       #f4f4f8;
+    --surface:  #ffffff;
+    --surface2: #f0f0f5;
+    --border:   #d8d8e8;
+    --border2:  #b8b8d0;
+    --text:     #1a1a2e;
+    --sub:      #6060a0;
+    --muted:    #a0a0c0;
+
+    --wait-bg:  #fffbf0;
+    --wait-bdr: #d97706;
+    --wait-txt: #b45309;
+
+    --slot-bg:  #f0f6ff;
+    --slot-bdr: #2563eb;
+    --slot-txt: #1d4ed8;
+
+    --done-bg:  #f0fff4;
+    --done-bdr: #16a34a;
+    --done-txt: #15803d;
+
+    --accent:   #4f46e5;
+    --accent2:  #4338ca;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Thai', sans-serif; font-size: 15px; transition: background .3s, color .3s; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    width: 36px; height: 36px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: background .2s, border-color .2s, transform .1s;
+    flex-shrink: 0;
+  }
+  .theme-toggle:active { transform: scale(.9); }
+
+  /* ── SCAN SCREEN ── */
+  #scanScreen {
+    position: fixed; inset: 0; background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 32px 24px; gap: 24px;
+    transition: background .3s;
+  }
+  .scan-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 4px; color: var(--accent2);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .scan-title {
+    font-size: 26px; font-weight: 700; color: var(--text); text-align: center; line-height: 1.3;
+  }
+  .scan-sub { font-size: 13px; color: var(--sub); text-align: center; }
+  .scan-topbar {
+    position: absolute; top: 20px; right: 20px;
+  }
+  .plate-input-wrap { width: 100%; max-width: 340px; position: relative; }
+  .plate-input {
+    width: 100%; padding: 16px 20px;
+    background: var(--surface2); border: 2px solid var(--border2);
+    border-radius: 14px; color: var(--text);
+    font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 500;
+    letter-spacing: 3px; text-align: center; text-transform: uppercase;
+    outline: none; transition: border-color .2s, background .3s, color .3s;
+  }
+  .plate-input:focus { border-color: var(--accent); }
+  .plate-input::placeholder { color: var(--muted); font-size: 14px; letter-spacing: 1px; font-family: 'IBM Plex Sans Thai', sans-serif; }
+  .scan-btn {
+    width: 100%; max-width: 340px; padding: 16px;
+    background: var(--accent); border: none; border-radius: 14px;
+    color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: opacity .15s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .scan-btn:active { opacity: .85; transform: scale(.98); }
+  .scan-err { font-size: 13px; color: #f87171; text-align: center; min-height: 20px; }
+
+  /* ── MAIN APP ── */
+  #mainApp { position: fixed; inset: 0; display: none; flex-direction: column; }
+
+  /* HEADER */
+  .header {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 14px 16px 12px; flex-shrink: 0;
+    transition: background .3s, border-color .3s;
+  }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .header-plate {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px; font-weight: 500; color: var(--text); letter-spacing: 2px;
+  }
+  .header-queue {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; color: var(--accent2); background: rgba(99,102,241,.12);
+    padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(99,102,241,.3);
+  }
+
+  /* STATUS BAR */
+  .status-track {
+    display: flex; align-items: center; gap: 0; position: relative;
+  }
+  .status-step {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    position: relative; z-index: 1;
+  }
+  .step-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; border: 2px solid var(--border2);
+    background: var(--surface2); transition: .3s;
+  }
+  .step-dot.done   { background: var(--done-bdr); border-color: var(--done-bdr); }
+  .step-dot.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 12px rgba(99,102,241,.4); }
+  .step-label { font-size: 9px; color: var(--sub); text-align: center; line-height: 1.2; white-space: nowrap; }
+  .step-label.active { color: var(--accent2); }
+  .step-label.done  { color: var(--done-txt); }
+  .step-line {
+    flex: 1; height: 2px; background: var(--border); margin-top: -18px;
+    position: relative; z-index: 0; transition: .3s;
+  }
+  .step-line.done { background: var(--done-bdr); }
+
+  /* SCROLL BODY */
+  .body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px; }
+
+  /* CARD */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 16px; margin-bottom: 12px;
+    transition: background .3s, border-color .3s;
+  }
+  .card-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--sub); margin-bottom: 10px;
+  }
+
+  /* STATUS CARD */
+  .status-card {
+    border-radius: 16px; padding: 18px 16px; margin-bottom: 12px;
+    border: 1.5px solid; display: flex; align-items: center; gap: 14px;
+    transition: background .3s;
+  }
+  .status-card.wait { background: var(--wait-bg); border-color: var(--wait-bdr); }
+  .status-card.slot { background: var(--slot-bg); border-color: var(--slot-bdr); }
+  .status-card.done { background: var(--done-bg); border-color: var(--done-bdr); }
+  .status-icon { font-size: 32px; flex-shrink: 0; }
+  .status-main { font-size: 16px; font-weight: 700; }
+  .wait .status-main { color: var(--wait-txt); }
+  .slot .status-main { color: var(--slot-txt); }
+  .done .status-main { color: var(--done-txt); }
+  .status-desc { font-size: 12px; color: var(--sub); margin-top: 3px; }
+
+  /* QUEUE POSITION */
+  .queue-pos {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;
+  }
+  .qp-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 14px;
+    transition: background .3s, border-color .3s;
+  }
+  .qp-label { font-size: 10px; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .qp-val { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 500; color: var(--text); }
+  .qp-val.accent { color: var(--accent2); }
+
+  /* GOODS */
+  .goods-list { display: flex; flex-wrap: wrap; gap: 7px; }
+  .gbadge {
+    padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    border: 1px solid;
+  }
+  .gbadge.fresh  { background: rgba(34,197,94,.1);  color: #16a34a; border-color: rgba(34,197,94,.3); }
+  .gbadge.b2b    { background: rgba(59,130,246,.1); color: #1d4ed8; border-color: rgba(59,130,246,.3); }
+  .gbadge.sme    { background: rgba(245,158,11,.1); color: #b45309; border-color: rgba(245,158,11,.3); }
+  .gbadge.focus  { background: rgba(168,85,247,.1); color: #7e22ce; border-color: rgba(168,85,247,.3); }
+  .gbadge.u1     { background: rgba(239,68,68,.1);  color: #b91c1c; border-color: rgba(239,68,68,.3); }
+  .gbadge.normal { background: rgba(112,112,160,.1); color: var(--sub); border-color: var(--border2); }
+
+  html[data-theme="dark"] .gbadge.fresh  { color: #4ade80; }
+  html[data-theme="dark"] .gbadge.b2b   { color: #60a5fa; }
+  html[data-theme="dark"] .gbadge.sme   { color: #fbbf24; }
+  html[data-theme="dark"] .gbadge.focus { color: #c084fc; }
+  html[data-theme="dark"] .gbadge.u1    { color: #f87171; }
+
+  .no-goods { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  /* TIMES */
+  .time-rows { display: flex; flex-direction: column; gap: 8px; }
+  .time-row { display: flex; justify-content: space-between; align-items: center; }
+  .time-key { font-size: 12px; color: var(--sub); }
+  .time-val { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--text); }
+  .time-val.empty { color: var(--muted); font-style: italic; font-family: inherit; }
+
+  /* REFRESH */
+  .refresh-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; background: var(--surface); border-top: 1px solid var(--border);
+    flex-shrink: 0; gap: 8px;
+    transition: background .3s, border-color .3s;
+  }
+  .refresh-info { font-size: 11px; color: var(--muted); flex: 1; text-align: center; }
+  .refresh-btn {
+    padding: 7px 16px; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 10px; color: var(--text); font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px;
+    transition: background .3s;
+  }
+  .back-btn {
+    padding: 7px 14px; background: transparent; border: 1px solid var(--border);
+    border-radius: 10px; color: var(--sub); font-size: 12px;
+    cursor: pointer; font-family: inherit; white-space: nowrap;
+  }
+
+  /* LOADING */
+  .spinner {
+    width: 20px; height: 20px; border: 2px solid var(--border2);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin .7s linear infinite; display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* NOT FOUND */
+  .not-found {
+    text-align: center; padding: 48px 24px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .nf-icon { font-size: 52px; }
+  .nf-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .nf-sub { font-size: 13px; color: var(--sub); line-height: 1.6; }
+  .nf-plate {
+    font-family: 'IBM Plex Mono', monospace; font-size: 20px;
+    color: var(--accent2); background: rgba(99,102,241,.1);
+    padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(99,102,241,.2);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--surface2); border: 1px solid var(--border2);
+    color: var(--text); padding: 10px 20px; border-radius: 12px;
+    font-size: 13px; z-index: 999; opacity: 0; transition: .3s;
+    white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  }
+  .toast.show { opacity: 1; }
+  .toast.ok   { border-color: var(--done-bdr); color: var(--done-txt); }
+  .toast.err  { border-color: #f87171; color: #f87171; }
+
+  .spin-anim { animation: spin .7s linear infinite; display: inline-block; }
+
+  /* ── PARKING LOTS ── */
+  .lot-card {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; overflow: hidden;
+    transition: background .3s, border-color .3s;
+  }
+  .lot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .lot-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .lot-num {
+    width: 26px; height: 26px; border-radius: 50%; background: var(--accent);
+    color: #fff; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .lot-types { font-size: 10px; color: var(--sub); margin-top: 1px; }
+  .lot-count { text-align: right; }
+  .lot-used { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; }
+  .lot-cap  { font-size: 10px; color: var(--sub); }
+  .lot-bar-wrap { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+  .lot-bar { height: 100%; border-radius: 4px; transition: width .5s, background .3s; }
+  .lot-bar.ok   { background: var(--done-bdr); }
+  .lot-bar.warn { background: var(--wait-bdr); }
+  .lot-bar.full { background: #ef4444; }
+  .lot-footer { display: flex; justify-content: space-between; align-items: center; }
+  .lot-remain { font-size: 12px; }
+  .lot-remain.ok   { color: var(--done-txt); }
+  .lot-remain.warn { color: var(--wait-txt); }
+  .lot-remain.full { color: #f87171; }
+  .lot-time-note { font-size: 10px; color: var(--sub); }
+  .lot-full-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 6px;
+    font-size: 10px; font-weight: 700; background: rgba(239,68,68,.15); color: #f87171;
+    border: 1px solid rgba(239,68,68,.3);
+  }
+  .parking-section-title {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--sub); margin: 14px 0 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .my-lot-highlight { border-color: var(--accent) !important; }
+  .my-lot-badge {
+    font-size: 10px; font-weight: 700; color: var(--accent2);
+    background: rgba(99,102,241,.15); padding: 2px 8px; border-radius: 6px;
+    border: 1px solid rgba(99,102,241,.3);
+  }
+</style>
+</head>
+<body>
+
+<!-- SCAN SCREEN -->
+<div id="scanScreen">
+  <div class="scan-topbar">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleScan" title="สลับโหมด">🌙</button>
+  </div>
+  <div class="scan-logo">Transport Driver</div>
+  <div class="scan-title">ค้นหาคิวรถของคุณ</div>
+  <div class="scan-sub">กรอกเลขทะเบียนรถเพื่อดูสถานะคิว</div>
+  <div class="plate-input-wrap">
+    <input class="plate-input" id="plateInput"
+      placeholder="เช่น กข 1234" maxlength="12"
+      oninput="this.value=this.value.toUpperCase()"
+      onkeydown="if(event.key==='Enter')searchPlate()" />
+  </div>
+  <div class="scan-err" id="scanErr"></div>
+  <button class="scan-btn" onclick="searchPlate()">
+    <span id="scanBtnIcon">🔍</span>
+    <span id="scanBtnText">ค้นหาคิว</span>
+  </button>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="header-left">
+        <div class="header-plate" id="hPlate">—</div>
+        <div class="header-queue" id="hQueue">คิว —</div>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleMain" title="สลับโหมด">🌙</button>
+    </div>
+    <!-- STATUS TRACK -->
+    <div class="status-track">
+      <div class="status-step">
+        <div class="step-dot" id="dot0">1</div>
+        <div class="step-label" id="lbl0">รอในลาน</div>
+      </div>
+      <div class="step-line" id="line0"></div>
+      <div class="status-step">
+        <div class="step-dot" id="dot1">2</div>
+        <div class="step-label" id="lbl1">เข้าช่อง</div>
+      </div>
+      <div class="step-line" id="line1"></div>
+      <div class="status-step">
+        <div class="step-dot" id="dot2">✓</div>
+        <div class="step-label" id="lbl2">เสร็จแล้ว</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLL BODY -->
+  <div class="body" id="appBody">
+    <div style="text-align:center;padding:40px 0">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="refresh-bar">
+    <button class="back-btn" onclick="goBack()">← เปลี่ยน</button>
+    <div class="refresh-info" id="refreshInfo">—</div>
+    <button class="refresh-btn" onclick="refresh()">
+      <span id="refreshIcon">⟳</span> รีเฟรช
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── THEME ──
+const THEME_KEY = 'dq_theme';
+let currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
+
+function applyTheme(theme) {
+  currentTheme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem(THEME_KEY, theme);
+  const icon = theme === 'dark' ? '🌙' : '☀️';
+  document.getElementById('themeToggleScan').textContent = icon;
+  document.getElementById('themeToggleMain').textContent = icon;
+}
+
+function toggleTheme() {
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+
+applyTheme(currentTheme);
+
+// ── CONFIG ──
+const SHEET_ID = '1PI58Pj1eVkMLujqauSo_DdaAMQric9LqS4fZf1Xtues';
+const SHEET_TAB = 'ข้อมูล';
+const GOODS_CLS = {Normal:'normal',SME:'sme',Fresh:'fresh',B2B:'b2b',Focus:'focus',U1:'u1'};
+
+// ── PARKING LOTS CONFIG ──
+const LOTS = [
+  {
+    id: 3, name: 'จุดที่ 3', icon: '🏢',
+    types: ['Normal','SME','Focus','U1'],
+    typeLabel: 'ทั่วไป (Normal, SME, Focus, U1)',
+    schedule: [
+      { fromHour: 0,  cap: 10  },
+      { fromHour: 17, cap: 10  },
+      { fromHour: 18, cap: 20  },
+      { fromHour: 19, cap: 30  },
+      { fromHour: 20, cap: 40  },
+    ]
+  },
+  {
+    id: 4, name: 'จุดที่ 4', icon: '🌿',
+    types: ['Normal','SME','Focus','U1','Fresh'],
+    typeLabel: 'ทั่วไป + Fresh',
+    schedule: [{ fromHour: 0, cap: 50 }]
+  },
+  {
+    id: 5, name: 'จุดที่ 5', icon: '📦',
+    types: ['B2B'],
+    typeLabel: 'B2B',
+    schedule: [{ fromHour: 0, cap: 15 }]
+  }
+];
+
+function getLotCapacity(lot) {
+  const h = new Date().getHours();
+  const sched = [...lot.schedule].reverse().find(s => h >= s.fromHour);
+  return sched ? sched.cap : lot.schedule[0].cap;
+}
+
+function getNextCapTime(lot) {
+  const h = new Date().getHours();
+  const next = lot.schedule.find(s => s.fromHour > h);
+  if (!next) return null;
+  return `${next.fromHour}:00 จอดได้ ${next.cap} คัน`;
+}
+
+function countLotUsed(lot, todayRows) {
+  return todayRows.filter(r => {
+    const status = getStatus(r);
+    if (status === 'done') return false;
+    const goods = gv(r,'สินค้า');
+    if (!goods) return false;
+    return goods.split(/\s*,\s*/).some(g => lot.types.includes(g.trim()));
+  }).length;
+}
+
+function getMyLot(goods) {
+  if (!goods) return null;
+  const goodsList = goods.split(/\s*,\s*/).map(g => g.trim());
+  if (goodsList.includes('B2B')) return 5;
+  if (goodsList.includes('Fresh')) return 4;
+  return 3;
+}
+
+function renderParkingLots(todayRows, myGoods) {
+  const myLotId = getMyLot(myGoods);
+  return LOTS.map(lot => {
+    const cap   = getLotCapacity(lot);
+    const used  = countLotUsed(lot, todayRows);
+    const avail = Math.max(0, cap - used);
+    const pct   = Math.min(100, Math.round(used / cap * 100));
+    const barCls = pct >= 100 ? 'full' : pct >= 75 ? 'warn' : 'ok';
+    const textCls = barCls;
+    const nextTime = getNextCapTime(lot);
+    const isMyLot = lot.id === myLotId;
+
+    const remainText = avail === 0
+      ? `<span class="lot-full-badge">⛔ เต็มแล้ว</span>`
+      : `<span class="lot-remain ${textCls}">ว่าง ${avail} คัน</span>`;
+
+    return `
+    <div class="lot-card ${isMyLot ? 'my-lot-highlight' : ''}">
+      <div class="lot-header">
+        <div>
+          <div class="lot-name">
+            <span class="lot-num">${lot.id}</span>
+            ${lot.name} ${lot.icon}
+            ${isMyLot ? '<span class="my-lot-badge">✦ ลานของคุณ</span>' : ''}
+          </div>
+          <div class="lot-types">${lot.typeLabel}</div>
+        </div>
+        <div class="lot-count">
+          <div class="lot-used" style="color:${pct>=100?'#ef4444':pct>=75?'#f59e0b':'#22c55e'}">${used}<span style="font-size:13px;color:var(--sub)">/${cap}</span></div>
+          <div class="lot-cap">คัน</div>
+        </div>
+      </div>
+      <div class="lot-bar-wrap">
+        <div class="lot-bar ${barCls}" style="width:${pct}%"></div>
+      </div>
+      <div class="lot-footer">
+        ${remainText}
+        <span class="lot-time-note">${nextTime ? '🕐 ' + nextTime : '⏰ ความจุคงที่'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+let allRows = [], currentPlate = '', refreshTimer;
+
+// ── HELPERS ──
+function gv(r, ...keys) {
+  for (const k of keys) {
+    if (r[k] !== undefined && r[k] !== null && r[k] !== '') return r[k].toString().trim();
+  }
+  return '';
+}
+
+function parseThaiDate(s) {
+  if (!s) return null;
+  s = s.toString().trim();
+  const m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if (m) {
+    let y = parseInt(m[3]); if (y > 2500) y -= 543;
+    return new Date(y, parseInt(m[2])-1, parseInt(m[1]), parseInt(m[4]), parseInt(m[5]));
+  }
+  return null;
+}
+
+function fmtTime(raw) {
+  if (!raw || raw === '' || raw === 'FALSE' || raw === false) return null;
+  const s = raw.toString();
+  if (!isNaN(s) && parseFloat(s) > 0 && parseFloat(s) < 1) {
+    const sec = Math.round(parseFloat(s) * 86400);
+    return String(Math.floor(sec/3600)).padStart(2,'0') + ':' + String(Math.floor((sec%3600)/60)).padStart(2,'0');
+  }
+  if (s.startsWith('Date(')) {
+    const p = s.match(/\d+/g).map(Number);
+    if (p.length >= 5) return String(p[3]).padStart(2,'0') + ':' + String(p[4]).padStart(2,'0');
+  }
+  const d = parseThaiDate(s);
+  if (d) return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  return null;
+}
+
+function todayKey() {
+  const n = new Date(), y = n.getFullYear() + 543;
+  return `${n.getDate()}/${n.getMonth()+1}/${y}`;
+}
+
+function getStatus(r) {
+  const done = gv(r,'เวลาลงของเสร็จ');
+  const slot = gv(r,'เวลาเข้าช่อง');
+  if (done && done !== 'FALSE') return 'done';
+  if (slot && slot !== 'FALSE') return 'slot';
+  return 'wait';
+}
+
+function platMatch(plate, input) {
+  const clean = s => s.replace(/\s+/g,'').toUpperCase();
+  return clean(plate).includes(clean(input)) || clean(input).includes(clean(plate).substring(0,4));
+}
+
+// ── LOAD DATA ──
+async function loadData() {
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_TAB)}`;
+    const res = await fetch(url);
+    const txt = await res.text();
+    const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+    const cols = json.table.cols.map(c => c.label);
+    allRows = json.table.rows
+      .map(r => { const o = {}; cols.forEach((c,i) => { o[c] = r.c&&r.c[i] ? r.c[i].v??'' : ''; }); return o; })
+      .filter(r => cols.some(c => r[c] !== ''));
+    return true;
+  } catch(e) { return false; }
+}
+
+// ── SEARCH ──
+async function searchPlate() {
+  const input = document.getElementById('plateInput').value.trim();
+  if (!input || input.length < 3) {
+    document.getElementById('scanErr').textContent = 'กรุณากรอกเลขทะเบียนอย่างน้อย 3 ตัวอักษร';
+    return;
+  }
+  document.getElementById('scanErr').textContent = '';
+  document.getElementById('scanBtnIcon').innerHTML = '<span class="spin-anim">⟳</span>';
+  document.getElementById('scanBtnText').textContent = 'กำลังค้นหา...';
+
+  const ok = await loadData();
+  if (!ok) {
+    document.getElementById('scanErr').textContent = 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง';
+    document.getElementById('scanBtnIcon').textContent = '🔍';
+    document.getElementById('scanBtnText').textContent = 'ค้นหาคิว';
+    return;
+  }
+
+  currentPlate = input;
+  showApp();
+}
+
+// ── SHOW APP ──
+function showApp() {
+  document.getElementById('scanScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'flex';
+  document.getElementById('scanBtnIcon').textContent = '🔍';
+  document.getElementById('scanBtnText').textContent = 'ค้นหาคิว';
+  renderApp();
+  clearInterval(refreshTimer);
+  refreshTimer = setInterval(async () => { await loadData(); renderApp(); }, 30000);
+}
+
+function goBack() {
+  clearInterval(refreshTimer);
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('scanScreen').style.display = 'flex';
+  document.getElementById('plateInput').value = '';
+}
+
+async function refresh() {
+  document.getElementById('refreshIcon').innerHTML = '<span class="spin-anim">⟳</span>';
+  await loadData();
+  renderApp();
+  document.getElementById('refreshIcon').textContent = '⟳';
+  showToast('✅ อัปเดตแล้ว', 'ok');
+}
+
+// ── RENDER APP ──
+function renderApp() {
+  const tk = todayKey();
+  const todayRows = allRows.filter(r => {
+    const d = parseThaiDate(gv(r,'เวลา'));
+    return d && `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+543}` === tk;
+  });
+  const row = todayRows.find(r => platMatch(gv(r,'เลขทะเบียนรถ'), currentPlate));
+
+  document.getElementById('refreshInfo').textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}`;
+
+  if (!row) {
+    document.getElementById('hPlate').textContent = currentPlate.toUpperCase();
+    document.getElementById('hQueue').textContent = 'ไม่พบคิว';
+    updateTrack('wait');
+    document.getElementById('appBody').innerHTML = `
+      <div class="not-found">
+        <div class="nf-icon">🔍</div>
+        <div class="nf-plate">${currentPlate.toUpperCase()}</div>
+        <div class="nf-title">ยังไม่พบในคิววันนี้</div>
+        <div class="nf-sub">รถของคุณอาจยังไม่ได้สแกนเข้าระบบ<br>หรือตรวจสอบเลขทะเบียนอีกครั้ง</div>
+      </div>`;
+    return;
+  }
+
+  const status = getStatus(row);
+  const plate  = gv(row,'เลขทะเบียนรถ');
+  const queue  = gv(row,'คิว');
+  const goods  = gv(row,'สินค้า');
+  const type   = gv(row,'ประเภทรถ');
+  const phone  = gv(row,'เบอร์โทรคนขับ');
+  const tIn    = fmtTime(gv(row,'เวลา'));
+  const tSlot  = fmtTime(gv(row,'เวลาเข้าช่อง'));
+  const tDone  = fmtTime(gv(row,'เวลาลงของเสร็จ'));
+
+  document.getElementById('hPlate').textContent = plate;
+  document.getElementById('hQueue').textContent = queue ? `คิว ${queue}` : 'คิว —';
+  updateTrack(status);
+
+  const waitRows = todayRows.filter(r => getStatus(r) === 'wait');
+  waitRows.sort((a,b) => (parseInt(gv(a,'คิว'))||999) - (parseInt(gv(b,'คิว'))||999));
+  const myPos = waitRows.findIndex(r => gv(r,'เลขทะเบียนรถ') === plate);
+  const ahead = myPos > 0 ? myPos : 0;
+
+  const statusCards = {
+    wait: `<div class="status-card wait">
+      <div class="status-icon">⏳</div>
+      <div class="status-info">
+        <div class="status-main">รอเรียกเข้าช่อง</div>
+        <div class="status-desc">รอให้เจ้าหน้าที่เรียกเข้าช่องโหลดของ</div>
+      </div>
+    </div>`,
+    slot: `<div class="status-card slot">
+      <div class="status-icon">🅿️</div>
+      <div class="status-info">
+        <div class="status-main">เข้าช่องโหลดของแล้ว</div>
+        <div class="status-desc">กำลังดำเนินการโหลดสินค้า</div>
+      </div>
+    </div>`,
+    done: `<div class="status-card done">
+      <div class="status-icon">✅</div>
+      <div class="status-info">
+        <div class="status-main">ลงของเสร็จแล้ว</div>
+        <div class="status-desc">ดำเนินการเสร็จสิ้น สามารถออกได้เลย</div>
+      </div>
+    </div>`
+  };
+
+  const goodsBadges = goods
+    ? goods.split(/\s*,\s*/).filter(Boolean).map(g =>
+        `<span class="gbadge ${GOODS_CLS[g.trim()]||'normal'}">${g.trim()}</span>`).join('')
+    : `<span class="no-goods">ยังไม่ระบุสินค้า</span>`;
+
+  const queueCards = status === 'wait' ? `
+    <div class="queue-pos">
+      <div class="qp-box">
+        <div class="qp-label">คิวของคุณ</div>
+        <div class="qp-val accent">${queue||'—'}</div>
+      </div>
+      <div class="qp-box">
+        <div class="qp-label">รถรออยู่ข้างหน้า</div>
+        <div class="qp-val">${ahead} คัน</div>
+      </div>
+    </div>` : '';
+
+  const parkingHTML = renderParkingLots(todayRows, goods);
+
+  document.getElementById('appBody').innerHTML = `
+    ${statusCards[status]}
+    ${queueCards}
+
+    <div class="card">
+      <div class="card-label">สินค้าในรถ</div>
+      <div class="goods-list">${goodsBadges}</div>
+    </div>
+
+    <div class="parking-section-title">🅿️ สถานะลานจอดรถ</div>
+    ${parkingHTML}
+
+    <div class="card">
+      <div class="card-label">ข้อมูลรถ</div>
+      <div class="time-rows">
+        <div class="time-row">
+          <span class="time-key">ประเภทรถ</span>
+          <span class="time-val ${type?'':'empty'}">${type||'ยังไม่ระบุ'}</span>
+        </div>
+        <div class="time-row">
+          <span class="time-key">เบอร์โทร</span>
+          <span class="time-val ${phone?'':'empty'}">${phone||'ยังไม่ระบุ'}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">ไทม์ไลน์วันนี้</div>
+      <div class="time-rows">
+        <div class="time-row">
+          <span class="time-key">🕐 เข้าคิว</span>
+          <span class="time-val ${tIn?'':'empty'}">${tIn||'—'}</span>
+        </div>
+        <div class="time-row">
+          <span class="time-key">🅿️ เข้าช่อง</span>
+          <span class="time-val ${tSlot?'':'empty'}">${tSlot||'รอ...'}</span>
+        </div>
+        <div class="time-row">
+          <span class="time-key">✅ ลงของเสร็จ</span>
+          <span class="time-val ${tDone?'':'empty'}">${tDone||'รอ...'}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function updateTrack(status) {
+  const steps  = ['dot0','dot1','dot2'];
+  const lines  = ['line0','line1'];
+  const labels = ['lbl0','lbl1','lbl2'];
+  const stepIdx = status==='wait' ? 0 : status==='slot' ? 1 : 2;
+
+  steps.forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.className = 'step-dot' + (i < stepIdx ? ' done' : i === stepIdx ? ' active' : '');
+    el.textContent = i < stepIdx ? '✓' : i+1;
+    const lbl = document.getElementById(labels[i]);
+    lbl.className = 'step-label' + (i < stepIdx ? ' done' : i === stepIdx ? ' active' : '');
+  });
+  lines.forEach((id,i) => {
+    document.getElementById(id).className = 'step-line' + (i < stepIdx ? ' done' : '');
+  });
+}
+
+// ── TOAST ──
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 2000);
+}
+
+document.getElementById('plateInput').focus();
+</script>
+</body>
+</html>
