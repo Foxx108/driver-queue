@@ -37,8 +37,9 @@
     --purple-bdr: #a855f7;
     --purple-txt: #c084fc;
 
-    --accent:   #6366f1;
-    --accent2:  #818cf8;
+    --accent:   #D40511;
+    --accent2:  #ff5c5c;
+    --dhl-yellow: #FFCC00;
 
     --theme-icon: '🌙';
   }
@@ -69,8 +70,9 @@
     --purple-bdr: #9333ea;
     --purple-txt: #7e22ce;
 
-    --accent:   #4f46e5;
-    --accent2:  #4338ca;
+    --accent:   #D40511;
+    --accent2:  #b91c1c;
+    --dhl-yellow: #FFCC00;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -89,6 +91,23 @@
     flex-shrink: 0;
   }
   .theme-toggle:active { transform: scale(.9); }
+
+  /* ── DHL BRANDING ── */
+  .brand-stripe {
+    height: 5px; width: 100%; flex-shrink: 0;
+    background: linear-gradient(90deg, var(--dhl-yellow) 0% 65%, var(--accent) 65% 100%);
+  }
+  #scanScreen .brand-stripe { position: absolute; top: 0; left: 0; }
+  .dhl-logo-box {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--accent); color: var(--dhl-yellow);
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 800;
+    font-size: 22px; letter-spacing: 1px;
+    padding: 10px 18px; border-radius: 8px;
+  }
+  .dhl-logo-box.small {
+    font-size: 13px; padding: 5px 9px; border-radius: 6px; flex-shrink: 0;
+  }
 
   /* ── SCAN SCREEN ── */
   #scanScreen {
@@ -147,8 +166,8 @@
   }
   .header-queue {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px; color: var(--accent2); background: rgba(99,102,241,.12);
-    padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(99,102,241,.3);
+    font-size: 13px; color: var(--accent2); background: rgba(212,5,17,.12);
+    padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(212,5,17,.3);
   }
 
   /* STATUS BAR */
@@ -166,7 +185,7 @@
     background: var(--surface2); transition: .3s;
   }
   .step-dot.done   { background: var(--done-bdr); border-color: var(--done-bdr); }
-  .step-dot.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 12px rgba(99,102,241,.4); }
+  .step-dot.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 12px rgba(212,5,17,.4); }
   .step-label { font-size: 9px; color: var(--sub); text-align: center; line-height: 1.2; white-space: nowrap; }
   .step-label.active { color: var(--accent2); }
   .step-label.done  { color: var(--done-txt); }
@@ -342,8 +361,8 @@
   .nf-sub { font-size: 13px; color: var(--sub); line-height: 1.6; }
   .nf-plate {
     font-family: 'IBM Plex Mono', monospace; font-size: 20px;
-    color: var(--accent2); background: rgba(99,102,241,.1);
-    padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(99,102,241,.2);
+    color: var(--accent2); background: rgba(212,5,17,.1);
+    padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(212,5,17,.2);
   }
 
   /* TOAST */
@@ -401,8 +420,8 @@
   .my-lot-highlight { border-color: var(--accent) !important; }
   .my-lot-badge {
     font-size: 10px; font-weight: 700; color: var(--accent2);
-    background: rgba(99,102,241,.15); padding: 2px 8px; border-radius: 6px;
-    border: 1px solid rgba(99,102,241,.3);
+    background: rgba(212,5,17,.15); padding: 2px 8px; border-radius: 6px;
+    border: 1px solid rgba(212,5,17,.3);
   }
 </style>
 </head>
@@ -410,10 +429,12 @@
 
 <!-- SCAN SCREEN -->
 <div id="scanScreen">
+  <div class="brand-stripe"></div>
   <div class="scan-topbar">
     <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleScan" title="สลับโหมด">🌙</button>
   </div>
-  <div class="scan-logo">Transport Driver</div>
+  <div class="dhl-logo-box">DHL</div>
+  <div class="scan-logo">Transport Driver Portal</div>
   <div class="scan-title">ค้นหาคิวรถของคุณ</div>
   <div class="scan-sub">กรอกเลขทะเบียนรถเพื่อดูสถานะคิว</div>
   <div class="plate-input-wrap">
@@ -431,10 +452,12 @@
 
 <!-- MAIN APP -->
 <div id="mainApp">
+  <div class="brand-stripe"></div>
   <!-- HEADER -->
   <div class="header">
     <div class="header-top">
       <div class="header-left">
+        <div class="dhl-logo-box small">DHL</div>
         <div class="header-plate" id="hPlate">—</div>
         <div class="header-queue" id="hQueue">คิว —</div>
       </div>
@@ -649,6 +672,14 @@ function todayKey() {
 }
 
 function getStatus(r) {
+  // ถ้าชีท ข้อมูล มีคอลัมน์ "สถานะ" เป็นข้อความ ให้ใช้ค่านี้เป็นหลักก่อน
+  const statusText = gv(r,'สถานะ');
+  if (statusText) {
+    if (statusText.includes('เสร็จ')) return 'done';
+    if (statusText.includes('เข้าช่อง') || statusText.includes('ช่อง')) return 'slot';
+    if (statusText.includes('รอ')) return 'wait';
+  }
+  // fallback: เดาจากคอลัมน์เวลา
   const done = gv(r,'เวลาลงของเสร็จ');
   const slot = gv(r,'เวลาเข้าช่อง');
   if (done && done !== 'FALSE') return 'done';
