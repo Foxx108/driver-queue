@@ -672,11 +672,11 @@ function todayKey() {
 }
 
 function getStatus(r) {
-  // ถ้าชีท ข้อมูล มีคอลัมน์ "สถานะ" เป็นข้อความ ให้ใช้ค่านี้เป็นหลักก่อน
-  const statusText = gv(r,'สถานะ');
+  // ชีท ข้อมูล มีคอลัมน์ "สถานะปัจจุบัน" เป็นข้อความ (มี emoji นำหน้า) ใช้เป็นหลัก
+  const statusText = gv(r,'สถานะปัจจุบัน','สถานะ');
   if (statusText) {
     if (statusText.includes('เสร็จ')) return 'done';
-    if (statusText.includes('เข้าช่อง') || statusText.includes('ช่อง')) return 'slot';
+    if (statusText.includes('เข้าช่อง') || statusText.includes('กำลังลง') || /Stop\s*\d+/i.test(statusText)) return 'slot';
     if (statusText.includes('รอ')) return 'wait';
   }
   // fallback: เดาจากคอลัมน์เวลา
