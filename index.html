@@ -11,7 +11,6 @@
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
   :root {
-    /* ── DARK MODE (default) ── */
     --bg:       #0a0a0f;
     --surface:  #13131a;
     --surface2: #1c1c28;
@@ -40,8 +39,6 @@
     --accent:   #D40511;
     --accent2:  #ff5c5c;
     --dhl-yellow: #FFCC00;
-
-    --theme-icon: '🌙';
   }
 
   html[data-theme="light"] {
@@ -78,7 +75,6 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Thai', sans-serif; font-size: 15px; transition: background .3s, color .3s; }
 
-  /* ── THEME TOGGLE ── */
   .theme-toggle {
     width: 36px; height: 36px;
     background: var(--surface2);
@@ -92,7 +88,6 @@
   }
   .theme-toggle:active { transform: scale(.9); }
 
-  /* ── DHL BRANDING ── */
   .brand-stripe {
     height: 5px; width: 100%; flex-shrink: 0;
     background: linear-gradient(90deg, var(--dhl-yellow) 0% 65%, var(--accent) 65% 100%);
@@ -109,7 +104,6 @@
     font-size: 13px; padding: 5px 9px; border-radius: 6px; flex-shrink: 0;
   }
 
-  /* ── SCAN SCREEN ── */
   #scanScreen {
     position: fixed; inset: 0; background: var(--bg);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -149,10 +143,8 @@
   .scan-btn:active { opacity: .85; transform: scale(.98); }
   .scan-err { font-size: 13px; color: #f87171; text-align: center; min-height: 20px; }
 
-  /* ── MAIN APP ── */
   #mainApp { position: fixed; inset: 0; display: none; flex-direction: column; }
 
-  /* HEADER */
   .header {
     background: var(--surface); border-bottom: 1px solid var(--border);
     padding: 14px 16px 12px; flex-shrink: 0;
@@ -170,7 +162,20 @@
     padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(212,5,17,.3);
   }
 
-  /* STATUS BAR */
+  /* priority badge in header */
+  .priority-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+    border: 1px solid; letter-spacing: .5px;
+  }
+  .priority-badge.p1 { background: rgba(59,130,246,.15); color: #60a5fa; border-color: rgba(59,130,246,.4); }
+  .priority-badge.p2 { background: rgba(34,197,94,.15);  color: #4ade80; border-color: rgba(34,197,94,.4); }
+  .priority-badge.p3 { background: rgba(245,158,11,.15); color: #fbbf24; border-color: rgba(245,158,11,.4); }
+  .priority-badge.p4 { background: rgba(112,112,160,.15); color: var(--sub); border-color: var(--border2); }
+  html[data-theme="light"] .priority-badge.p1 { color: #1d4ed8; border-color: rgba(37,99,235,.4); }
+  html[data-theme="light"] .priority-badge.p2 { color: #15803d; border-color: rgba(22,163,74,.4); }
+  html[data-theme="light"] .priority-badge.p3 { color: #b45309; border-color: rgba(217,119,6,.4); }
+  html[data-theme="light"] .priority-badge.p4 { color: var(--sub); }
+
   .status-track {
     display: flex; align-items: center; gap: 0; position: relative;
   }
@@ -195,10 +200,8 @@
   }
   .step-line.done { background: var(--done-bdr); }
 
-  /* SCROLL BODY */
   .body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px; }
 
-  /* CARD */
   .card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 16px; padding: 16px; margin-bottom: 12px;
@@ -209,7 +212,6 @@
     text-transform: uppercase; color: var(--sub); margin-bottom: 10px;
   }
 
-  /* BIG QUEUE NUMBER */
   .big-queue-card {
     text-align: center; padding: 22px 16px 20px;
     border-radius: 18px; border: 1.5px solid var(--border);
@@ -238,7 +240,9 @@
   .bq-pill.slot { background: var(--slot-bg); color: var(--slot-txt); border-color: var(--slot-bdr); }
   .bq-pill.done { background: var(--done-bg); color: var(--done-txt); border-color: var(--done-bdr); }
 
-  /* STATUS CARD */
+  /* original queue note */
+  .bq-orig { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
   .status-card {
     border-radius: 16px; padding: 18px 16px; margin-bottom: 12px;
     border: 1.5px solid; display: flex; align-items: center; gap: 14px;
@@ -254,7 +258,6 @@
   .done .status-main { color: var(--done-txt); }
   .status-desc { font-size: 12px; color: var(--sub); margin-top: 3px; }
 
-  /* QUEUE POSITION */
   .queue-pos {
     display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;
   }
@@ -267,7 +270,6 @@
   .qp-val { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 500; color: var(--text); }
   .qp-val.accent { color: var(--accent2); }
 
-  /* GOODS */
   .goods-list { display: flex; flex-wrap: wrap; gap: 7px; }
   .gbadge {
     padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
@@ -287,10 +289,8 @@
   html[data-theme="dark"] .gbadge.u1    { color: #f87171; }
 
   .gbadge.faded { opacity: .45; }
-
   .no-goods { font-size: 13px; color: var(--muted); font-style: italic; }
 
-  /* GOODS UNLOAD STATUS */
   .goods-summary {
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;
   }
@@ -316,14 +316,12 @@
   .gstatus-tag.pending { color: var(--wait-txt); }
   .gstatus-tag.done    { color: var(--done-txt); }
 
-  /* TIMES */
   .time-rows { display: flex; flex-direction: column; gap: 8px; }
   .time-row { display: flex; justify-content: space-between; align-items: center; }
   .time-key { font-size: 12px; color: var(--sub); }
   .time-val { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--text); }
   .time-val.empty { color: var(--muted); font-style: italic; font-family: inherit; }
 
-  /* REFRESH */
   .refresh-bar {
     display: flex; align-items: center; justify-content: space-between;
     padding: 10px 14px; background: var(--surface); border-top: 1px solid var(--border);
@@ -343,7 +341,6 @@
     cursor: pointer; font-family: inherit; white-space: nowrap;
   }
 
-  /* LOADING */
   .spinner {
     width: 20px; height: 20px; border: 2px solid var(--border2);
     border-top-color: var(--accent); border-radius: 50%;
@@ -351,7 +348,6 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* NOT FOUND */
   .not-found {
     text-align: center; padding: 48px 24px;
     display: flex; flex-direction: column; align-items: center; gap: 12px;
@@ -365,7 +361,6 @@
     padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(212,5,17,.2);
   }
 
-  /* TOAST */
   .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
     background: var(--surface2); border: 1px solid var(--border2);
@@ -379,7 +374,6 @@
 
   .spin-anim { animation: spin .7s linear infinite; display: inline-block; }
 
-  /* ── PARKING LOTS ── */
   .lot-card {
     background: var(--surface); border: 1.5px solid var(--border);
     border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; overflow: hidden;
@@ -423,6 +417,28 @@
     background: rgba(212,5,17,.15); padding: 2px 8px; border-radius: 6px;
     border: 1px solid rgba(212,5,17,.3);
   }
+
+  /* Priority info box */
+  .priority-info-card {
+    border-radius: 14px; padding: 14px 16px; margin-bottom: 12px;
+    border: 1.5px solid rgba(59,130,246,.3);
+    background: rgba(59,130,246,.07);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .pi-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .pi-title { font-size: 13px; font-weight: 700; color: var(--slot-txt); margin-bottom: 3px; }
+  .pi-desc { font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .pi-tiers { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .pi-tier {
+    font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 6px; border: 1px solid;
+  }
+  .pi-tier.t1 { background: rgba(59,130,246,.1); color: #60a5fa; border-color: rgba(59,130,246,.3); }
+  .pi-tier.t2 { background: rgba(34,197,94,.1); color: #4ade80; border-color: rgba(34,197,94,.3); }
+  .pi-tier.t3 { background: rgba(245,158,11,.1); color: #fbbf24; border-color: rgba(245,158,11,.3); }
+  .pi-tier.t4 { background: rgba(112,112,160,.1); color: var(--sub); border-color: var(--border2); }
+  html[data-theme="light"] .pi-tier.t1 { color: #1d4ed8; }
+  html[data-theme="light"] .pi-tier.t2 { color: #15803d; }
+  html[data-theme="light"] .pi-tier.t3 { color: #b45309; }
 </style>
 </head>
 <body>
@@ -453,17 +469,16 @@
 <!-- MAIN APP -->
 <div id="mainApp">
   <div class="brand-stripe"></div>
-  <!-- HEADER -->
   <div class="header">
     <div class="header-top">
       <div class="header-left">
         <div class="dhl-logo-box small">DHL</div>
         <div class="header-plate" id="hPlate">—</div>
         <div class="header-queue" id="hQueue">คิว —</div>
+        <div id="hPriorityBadge"></div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleMain" title="สลับโหมด">🌙</button>
     </div>
-    <!-- STATUS TRACK -->
     <div class="status-track">
       <div class="status-step">
         <div class="step-dot" id="dot0">1</div>
@@ -482,14 +497,12 @@
     </div>
   </div>
 
-  <!-- SCROLL BODY -->
   <div class="body" id="appBody">
     <div style="text-align:center;padding:40px 0">
       <div class="spinner"></div>
     </div>
   </div>
 
-  <!-- BOTTOM BAR -->
   <div class="refresh-bar">
     <button class="back-btn" onclick="goBack()">← เปลี่ยน</button>
     <div class="refresh-info" id="refreshInfo">—</div>
@@ -514,18 +527,65 @@ function applyTheme(theme) {
   document.getElementById('themeToggleScan').textContent = icon;
   document.getElementById('themeToggleMain').textContent = icon;
 }
-
-function toggleTheme() {
-  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
-}
-
+function toggleTheme() { applyTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
 applyTheme(currentTheme);
 
 // ── CONFIG ──
-const SHEET_ID = '1PI58Pj1eVkMLujqauSo_DdaAMQric9LqS4fZf1Xtues';
+const SHEET_ID  = '1PI58Pj1eVkMLujqauSo_DdaAMQric9LqS4fZf1Xtues';
 const SHEET_TAB = 'ข้อมูล';
 const STOPS_TAB = 'Stops';
 const GOODS_CLS = {Normal:'normal',SME:'sme',Fresh:'fresh',B2B:'b2b',Focus:'focus',U1:'u1'};
+
+// ── PRIORITY LOGIC ──
+// Tier 1 = B2B (truck has B2B in goods list)
+// Tier 2 = Fresh OR U1
+// Tier 3 = SME OR Focus
+// Tier 4 = Normal only
+// Within same tier → sort by arrival time (original queue order)
+// Special: trucks arriving BEFORE 19:00 get a sub-sort bonus within their tier
+//          (arrive before 19:00 → sub=0, after 19:00 → sub=1)
+//          so early arrivals always precede late arrivals in the same tier
+
+function getPriorityTier(goods) {
+  if (!goods) return 4;
+  const list = goods.split(/\s*,\s*/).map(g => g.trim());
+  if (list.includes('B2B'))   return 1;
+  if (list.includes('Fresh') || list.includes('U1'))   return 2;
+  if (list.includes('SME')   || list.includes('Focus')) return 3;
+  return 4;
+}
+
+const PRIORITY_LABELS = {
+  1: { label: 'B2B Priority', cls: 'p1' },
+  2: { label: 'Fresh/U1',     cls: 'p2' },
+  3: { label: 'SME/Focus',    cls: 'p3' },
+  4: { label: 'Normal',       cls: 'p4' },
+};
+
+// Build priority-sorted queue for "wait" trucks, assign new effective queue numbers
+// Returns array of { plate, effectiveQ, originalQ, tier, arrivalDate }
+function buildPriorityQueue(todayRows) {
+  const waitRows = todayRows.filter(r => getStatus(r) === 'wait');
+
+  const enriched = waitRows.map(r => {
+    const goods   = gv(r, 'สินค้า');
+    const tier    = getPriorityTier(goods);
+    const arrival = parseThaiDate(gv(r, 'เวลา'));
+    const hour    = arrival ? arrival.getHours() : 99;
+    const sub     = hour < 19 ? 0 : 1;   // before 19:00 gets sub=0 (higher priority)
+    const origQ   = parseInt(gv(r, 'คิว')) || 9999;
+    return { row: r, plate: gv(r, 'เลขทะเบียนรถ'), tier, sub, origQ, arrival };
+  });
+
+  // Sort: tier ASC → sub ASC → origQ ASC
+  enriched.sort((a, b) =>
+    a.tier !== b.tier ? a.tier - b.tier :
+    a.sub  !== b.sub  ? a.sub  - b.sub  :
+    a.origQ - b.origQ
+  );
+
+  return enriched.map((e, i) => ({ ...e, effectiveQ: i + 1 }));
+}
 
 // ── PARKING LOTS CONFIG ──
 const LOTS = [
@@ -534,11 +594,11 @@ const LOTS = [
     types: ['Normal','SME','Focus','U1'],
     typeLabel: 'ทั่วไป (Normal, SME, Focus, U1)',
     schedule: [
-      { fromHour: 0,  cap: 10  },
-      { fromHour: 17, cap: 10  },
-      { fromHour: 18, cap: 20  },
-      { fromHour: 19, cap: 30  },
-      { fromHour: 20, cap: 40  },
+      { fromHour: 0,  cap: 10 },
+      { fromHour: 17, cap: 10 },
+      { fromHour: 18, cap: 20 },
+      { fromHour: 19, cap: 30 },
+      { fromHour: 20, cap: 40 },
     ]
   },
   {
@@ -572,7 +632,7 @@ function countLotUsed(lot, todayRows) {
   return todayRows.filter(r => {
     const status = getStatus(r);
     if (status === 'done') return false;
-    const goods = gv(r,'สินค้า');
+    const goods = gv(r, 'สินค้า');
     if (!goods) return false;
     return goods.split(/\s*,\s*/).some(g => lot.types.includes(g.trim()));
   }).length;
@@ -580,9 +640,9 @@ function countLotUsed(lot, todayRows) {
 
 function getMyLot(goods) {
   if (!goods) return null;
-  const goodsList = goods.split(/\s*,\s*/).map(g => g.trim());
-  if (goodsList.includes('B2B')) return 5;
-  if (goodsList.includes('Fresh')) return 4;
+  const list = goods.split(/\s*,\s*/).map(g => g.trim());
+  if (list.includes('B2B'))   return 5;
+  if (list.includes('Fresh')) return 4;
   return 3;
 }
 
@@ -593,11 +653,10 @@ function renderParkingLots(todayRows, myGoods) {
     const used  = countLotUsed(lot, todayRows);
     const avail = Math.max(0, cap - used);
     const pct   = Math.min(100, Math.round(used / cap * 100));
-    const barCls = pct >= 100 ? 'full' : pct >= 75 ? 'warn' : 'ok';
+    const barCls  = pct >= 100 ? 'full' : pct >= 75 ? 'warn' : 'ok';
     const textCls = barCls;
-    const nextTime = getNextCapTime(lot);
-    const isMyLot = lot.id === myLotId;
-
+    const nextTime  = getNextCapTime(lot);
+    const isMyLot   = lot.id === myLotId;
     const remainText = avail === 0
       ? `<span class="lot-full-badge">⛔ เต็มแล้ว</span>`
       : `<span class="lot-remain ${textCls}">ว่าง ${avail} คัน</span>`;
@@ -672,16 +731,14 @@ function todayKey() {
 }
 
 function getStatus(r) {
-  // ชีท ข้อมูล มีคอลัมน์ "สถานะปัจจุบัน" เป็นข้อความ (มี emoji นำหน้า) ใช้เป็นหลัก
-  const statusText = gv(r,'สถานะปัจจุบัน','สถานะ');
+  const statusText = gv(r, 'สถานะปัจจุบัน', 'สถานะ');
   if (statusText) {
     if (statusText.includes('เสร็จ')) return 'done';
     if (statusText.includes('เข้าช่อง') || statusText.includes('กำลังลง') || /Stop\s*\d+/i.test(statusText)) return 'slot';
     if (statusText.includes('รอ')) return 'wait';
   }
-  // fallback: เดาจากคอลัมน์เวลา
-  const done = gv(r,'เวลาลงของเสร็จ');
-  const slot = gv(r,'เวลาเข้าช่อง');
+  const done = gv(r, 'เวลาลงของเสร็จ');
+  const slot = gv(r, 'เวลาเข้าช่อง');
   if (done && done !== 'FALSE') return 'done';
   if (slot && slot !== 'FALSE') return 'slot';
   return 'wait';
@@ -692,16 +749,14 @@ function platMatch(plate, input) {
   return clean(plate).includes(clean(input)) || clean(input).includes(clean(plate).substring(0,4));
 }
 
-// ── GOODS PARSING HELPERS ──
 function parseGoodsList(s) {
   if (!s) return [];
   return s.split(/\s*,\s*/).map(g => g.trim()).filter(Boolean);
 }
 
-// หา row ของรถคันนี้ใน Stops sheet (เข้าช่องแล้วเท่านั้นจะมี row)
 function getStopsRow(plate) {
   const matches = stopsRows.filter(r => {
-    const p = gv(r,'ทะเบียน');
+    const p = gv(r, 'ทะเบียน');
     return p && (p === plate || platMatch(p, plate));
   });
   if (!matches.length) return null;
@@ -711,8 +766,8 @@ function getStopsRow(plate) {
 // ── LOAD DATA ──
 async function fetchSheet(tabName) {
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tabName)}`;
-  const res = await fetch(url);
-  const txt = await res.text();
+  const res  = await fetch(url);
+  const txt  = await res.text();
   const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
   const cols = json.table.cols.map(c => c.label);
   return json.table.rows
@@ -723,11 +778,7 @@ async function fetchSheet(tabName) {
 async function loadData() {
   try {
     allRows = await fetchSheet(SHEET_TAB);
-    try {
-      stopsRows = await fetchSheet(STOPS_TAB);
-    } catch(e2) {
-      stopsRows = [];
-    }
+    try { stopsRows = await fetchSheet(STOPS_TAB); } catch(e2) { stopsRows = []; }
     return true;
   } catch(e) { return false; }
 }
@@ -755,7 +806,6 @@ async function searchPlate() {
   showApp();
 }
 
-// ── SHOW APP ──
 function showApp() {
   document.getElementById('scanScreen').style.display = 'none';
   document.getElementById('mainApp').style.display = 'flex';
@@ -785,16 +835,18 @@ async function refresh() {
 function renderApp() {
   const tk = todayKey();
   const todayRows = allRows.filter(r => {
-    const d = parseThaiDate(gv(r,'เวลา'));
+    const d = parseThaiDate(gv(r, 'เวลา'));
     return d && `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+543}` === tk;
   });
-  const row = todayRows.find(r => platMatch(gv(r,'เลขทะเบียนรถ'), currentPlate));
+  const row = todayRows.find(r => platMatch(gv(r, 'เลขทะเบียนรถ'), currentPlate));
 
-  document.getElementById('refreshInfo').textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}`;
+  document.getElementById('refreshInfo').textContent =
+    `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}`;
 
   if (!row) {
     document.getElementById('hPlate').textContent = currentPlate.toUpperCase();
     document.getElementById('hQueue').textContent = 'ไม่พบคิว';
+    document.getElementById('hPriorityBadge').innerHTML = '';
     updateTrack('wait');
     document.getElementById('appBody').innerHTML = `
       <div class="not-found">
@@ -807,24 +859,34 @@ function renderApp() {
   }
 
   const status = getStatus(row);
-  const plate  = gv(row,'เลขทะเบียนรถ');
-  const queue  = gv(row,'คิว');
-  const goods  = gv(row,'สินค้า');
-  const type   = gv(row,'ประเภทรถ');
-  const phone  = gv(row,'เบอร์โทรคนขับ');
-  const tIn    = fmtTime(gv(row,'เวลา'));
-  const tSlot  = fmtTime(gv(row,'เวลาเข้าช่อง'));
-  const tDone  = fmtTime(gv(row,'เวลาลงของเสร็จ'));
+  const plate  = gv(row, 'เลขทะเบียนรถ');
+  const origQ  = gv(row, 'คิว');
+  const goods  = gv(row, 'สินค้า');
+  const type   = gv(row, 'ประเภทรถ');
+  const phone  = gv(row, 'เบอร์โทรคนขับ');
+  const tIn    = fmtTime(gv(row, 'เวลา'));
+  const tSlot  = fmtTime(gv(row, 'เวลาเข้าช่อง'));
+  const tDone  = fmtTime(gv(row, 'เวลาลงของเสร็จ'));
+  const tier   = getPriorityTier(goods);
 
+  // ── BUILD PRIORITY QUEUE ──
+  const pQueue = buildPriorityQueue(todayRows);
+  const myEntry = pQueue.find(e => e.plate === plate);
+  const effectiveQ = myEntry ? myEntry.effectiveQ : (parseInt(origQ) || '—');
+  const ahead = myEntry ? myEntry.effectiveQ - 1 : 0;
+
+  // Header
   document.getElementById('hPlate').textContent = plate;
-  document.getElementById('hQueue').textContent = queue ? `คิว ${queue}` : 'คิว —';
+  // Show effective queue in header if waiting, else original
+  const displayQ = status === 'wait' ? effectiveQ : (parseInt(origQ) || '—');
+  document.getElementById('hQueue').textContent = `คิว ${displayQ}`;
+  const pl = PRIORITY_LABELS[tier];
+  document.getElementById('hPriorityBadge').innerHTML =
+    `<span class="priority-badge ${pl.cls}">${pl.label}</span>`;
+
   updateTrack(status);
 
-  const waitRows = todayRows.filter(r => getStatus(r) === 'wait');
-  waitRows.sort((a,b) => (parseInt(gv(a,'คิว'))||999) - (parseInt(gv(b,'คิว'))||999));
-  const myPos = waitRows.findIndex(r => gv(r,'เลขทะเบียนรถ') === plate);
-  const ahead = myPos > 0 ? myPos : 0;
-
+  // Status cards
   const statusCards = {
     wait: `<div class="status-card wait">
       <div class="status-icon">⏳</div>
@@ -852,8 +914,8 @@ function renderApp() {
   const queueCards = status === 'wait' ? `
     <div class="queue-pos">
       <div class="qp-box">
-        <div class="qp-label">คิวของคุณ</div>
-        <div class="qp-val accent">${queue||'—'}</div>
+        <div class="qp-label">คิวของคุณ (Priority)</div>
+        <div class="qp-val accent">${effectiveQ}</div>
       </div>
       <div class="qp-box">
         <div class="qp-label">รถรออยู่ข้างหน้า</div>
@@ -861,15 +923,16 @@ function renderApp() {
       </div>
     </div>` : '';
 
-  const goodsCardHTML = renderGoodsCard(plate, goods, status);
-  const parkingHTML = renderParkingLots(todayRows, goods);
-  const bigQueueHTML = renderBigQueue(queue, status, ahead);
+  const goodsCardHTML   = renderGoodsCard(plate, goods, status);
+  const parkingHTML     = renderParkingLots(todayRows, goods);
+  const bigQueueHTML    = renderBigQueue(effectiveQ, origQ, status, ahead);
+  const priorityInfoHTML = status === 'wait' ? renderPriorityInfo(tier, effectiveQ, origQ) : '';
 
   document.getElementById('appBody').innerHTML = `
     ${bigQueueHTML}
     ${statusCards[status]}
+    ${priorityInfoHTML}
     ${queueCards}
-
     ${goodsCardHTML}
 
     <div class="parking-section-title">🅿️ สถานะลานจอดรถ</div>
@@ -910,7 +973,7 @@ function renderApp() {
 }
 
 // ── BIG QUEUE NUMBER ──
-function renderBigQueue(queue, status, ahead) {
+function renderBigQueue(effectiveQ, origQ, status, ahead) {
   let pillHTML = '';
   if (status === 'wait') {
     if (ahead === 0) {
@@ -924,11 +987,44 @@ function renderBigQueue(queue, status, ahead) {
     pillHTML = `<div class="bq-pill done">✅ เสร็จสิ้นแล้ว</div>`;
   }
 
+  // Show original queue number as footnote when waiting (so driver can relate to physical ticket)
+  const origNote = (status === 'wait' && origQ && origQ !== String(effectiveQ))
+    ? `<div class="bq-orig">หมายเลขบัตรคิวเดิม: ${origQ}</div>`
+    : '';
+
   return `
   <div class="big-queue-card">
-    <div class="bq-eyebrow">หมายเลขคิวของคุณ</div>
-    <div class="bq-num ${status}">${queue || '—'}</div>
+    <div class="bq-eyebrow">ลำดับเข้าช่องจริง (Priority)</div>
+    <div class="bq-num ${status}">${status === 'wait' ? effectiveQ : (origQ||'—')}</div>
     ${pillHTML}
+    ${origNote}
+  </div>`;
+}
+
+// ── PRIORITY INFO CARD ──
+function renderPriorityInfo(tier, effectiveQ, origQ) {
+  const tierLabels = [
+    { cls: 't1', label: '1. B2B (สูงสุด)' },
+    { cls: 't2', label: '2. Fresh / U1' },
+    { cls: 't3', label: '3. SME / Focus' },
+    { cls: 't4', label: '4. Normal' },
+  ];
+  const tiers = tierLabels.map(t =>
+    `<span class="pi-tier ${t.cls}">${t.label}</span>`
+  ).join('');
+
+  const changedNote = (origQ && origQ !== String(effectiveQ))
+    ? `คิวของคุณเปลี่ยนจาก <strong>${origQ}</strong> → <strong>${effectiveQ}</strong> ตาม priority`
+    : `คิวของคุณ <strong>${effectiveQ}</strong> อยู่ใน tier ที่ถูกต้องแล้ว`;
+
+  return `
+  <div class="priority-info-card">
+    <div class="pi-icon">⚡</div>
+    <div>
+      <div class="pi-title">ระบบ Priority Queue</div>
+      <div class="pi-desc">${changedNote}<br>รถที่มาก่อน 19:00 ได้สิทธิ์ก่อนในระดับเดียวกัน</div>
+      <div class="pi-tiers">${tiers}</div>
+    </div>
   </div>`;
 }
 
@@ -936,7 +1032,6 @@ function renderBigQueue(queue, status, ahead) {
 function renderGoodsCard(plate, goods, status) {
   const stopsRow = getStopsRow(plate);
 
-  // รอในลาน หรือยังไม่มี row ใน Stops -> แสดงสินค้าจากชีท ข้อมูล แบบ badge ปกติ (ยังไม่ได้เริ่มลง)
   if (status === 'wait' || !stopsRow) {
     const badges = goods
       ? parseGoodsList(goods).map(g => `<span class="gbadge ${GOODS_CLS[g]||'normal'}">${g}</span>`).join('')
@@ -948,17 +1043,15 @@ function renderGoodsCard(plate, goods, status) {
     </div>`;
   }
 
-  const total = parseGoodsList(gv(stopsRow,'ต้องลง'));
-  const done  = parseGoodsList(gv(stopsRow,'ลงแล้ว'));
+  const total = parseGoodsList(gv(stopsRow, 'ต้องลง'));
+  const done  = parseGoodsList(gv(stopsRow, 'ลงแล้ว'));
 
   let allItems, doneItems, pendingItems;
   if (status === 'done') {
-    // เสร็จแล้ว -> ทุกอย่างคือ ลงแล้ว
     allItems = total.length ? total : (done.length ? done : parseGoodsList(goods));
     pendingItems = [];
     doneItems = allItems;
   } else {
-    // เข้าช่องแล้ว -> เทียบ ต้องลง vs ลงแล้ว
     allItems = total.length ? total : parseGoodsList(goods);
     pendingItems = allItems.filter(g => !done.includes(g));
     doneItems = allItems.filter(g => done.includes(g));
@@ -1025,7 +1118,6 @@ function updateTrack(status) {
   });
 }
 
-// ── TOAST ──
 function showToast(msg, type='') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast show ' + type;
