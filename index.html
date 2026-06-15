@@ -33,6 +33,10 @@
     --done-bdr: #22c55e;
     --done-txt: #4ade80;
 
+    --purple-bg:  #160a26;
+    --purple-bdr: #a855f7;
+    --purple-txt: #c084fc;
+
     --accent:   #6366f1;
     --accent2:  #818cf8;
 
@@ -60,6 +64,10 @@
     --done-bg:  #f0fff4;
     --done-bdr: #16a34a;
     --done-txt: #15803d;
+
+    --purple-bg:  #faf5ff;
+    --purple-bdr: #9333ea;
+    --purple-txt: #7e22ce;
 
     --accent:   #4f46e5;
     --accent2:  #4338ca;
@@ -182,6 +190,35 @@
     text-transform: uppercase; color: var(--sub); margin-bottom: 10px;
   }
 
+  /* BIG QUEUE NUMBER */
+  .big-queue-card {
+    text-align: center; padding: 22px 16px 20px;
+    border-radius: 18px; border: 1.5px solid var(--border);
+    background: var(--surface); margin-bottom: 12px;
+    transition: background .3s, border-color .3s;
+  }
+  .bq-eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--sub); margin-bottom: 4px;
+  }
+  .bq-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 88px; font-weight: 700; line-height: 1;
+    letter-spacing: -2px; transition: color .3s;
+  }
+  .bq-num.wait { color: var(--purple-txt); }
+  .bq-num.slot { color: var(--slot-txt); }
+  .bq-num.done { color: var(--done-txt); }
+  .bq-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 12px; padding: 7px 18px; border-radius: 24px;
+    font-size: 13px; font-weight: 700; border: 1px solid;
+  }
+  .bq-pill.wait { background: var(--purple-bg); color: var(--purple-txt); border-color: var(--purple-bdr); }
+  .bq-pill.next { background: var(--done-bg); color: var(--done-txt); border-color: var(--done-bdr); }
+  .bq-pill.slot { background: var(--slot-bg); color: var(--slot-txt); border-color: var(--slot-bdr); }
+  .bq-pill.done { background: var(--done-bg); color: var(--done-txt); border-color: var(--done-bdr); }
+
   /* STATUS CARD */
   .status-card {
     border-radius: 16px; padding: 18px 16px; margin-bottom: 12px;
@@ -215,7 +252,7 @@
   .goods-list { display: flex; flex-wrap: wrap; gap: 7px; }
   .gbadge {
     padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
-    border: 1px solid;
+    border: 1px solid; transition: opacity .3s;
   }
   .gbadge.fresh  { background: rgba(34,197,94,.1);  color: #16a34a; border-color: rgba(34,197,94,.3); }
   .gbadge.b2b    { background: rgba(59,130,246,.1); color: #1d4ed8; border-color: rgba(59,130,246,.3); }
@@ -230,7 +267,35 @@
   html[data-theme="dark"] .gbadge.focus { color: #c084fc; }
   html[data-theme="dark"] .gbadge.u1    { color: #f87171; }
 
+  .gbadge.faded { opacity: .45; }
+
   .no-goods { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  /* GOODS UNLOAD STATUS */
+  .goods-summary {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;
+  }
+  .gs-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 10px 8px; text-align: center;
+    transition: background .3s, border-color .3s;
+  }
+  .gs-val { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; }
+  .gs-lbl { font-size: 10px; color: var(--sub); margin-top: 2px; text-transform: uppercase; letter-spacing: .5px; }
+  .gs-box.gs-pending .gs-val { color: var(--wait-txt); }
+  .gs-box.gs-done    .gs-val { color: var(--done-txt); }
+  .gs-box.gs-total   .gs-val { color: var(--text); }
+
+  .goods-status-list { display: flex; flex-direction: column; gap: 8px; }
+  .gstatus-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--surface2); transition: opacity .4s, background .3s, border-color .3s;
+  }
+  .gstatus-item.done { opacity: .5; }
+  .gstatus-tag { font-size: 12px; font-weight: 700; }
+  .gstatus-tag.pending { color: var(--wait-txt); }
+  .gstatus-tag.done    { color: var(--done-txt); }
 
   /* TIMES */
   .time-rows { display: flex; flex-direction: column; gap: 8px; }
@@ -436,6 +501,7 @@ applyTheme(currentTheme);
 // ── CONFIG ──
 const SHEET_ID = '1PI58Pj1eVkMLujqauSo_DdaAMQric9LqS4fZf1Xtues';
 const SHEET_TAB = 'ข้อมูล';
+const STOPS_TAB = 'Stops';
 const GOODS_CLS = {Normal:'normal',SME:'sme',Fresh:'fresh',B2B:'b2b',Focus:'focus',U1:'u1'};
 
 // ── PARKING LOTS CONFIG ──
@@ -540,7 +606,7 @@ function renderParkingLots(todayRows, myGoods) {
   }).join('');
 }
 
-let allRows = [], currentPlate = '', refreshTimer;
+let allRows = [], stopsRows = [], currentPlate = '', refreshTimer;
 
 // ── HELPERS ──
 function gv(r, ...keys) {
@@ -595,17 +661,42 @@ function platMatch(plate, input) {
   return clean(plate).includes(clean(input)) || clean(input).includes(clean(plate).substring(0,4));
 }
 
+// ── GOODS PARSING HELPERS ──
+function parseGoodsList(s) {
+  if (!s) return [];
+  return s.split(/\s*,\s*/).map(g => g.trim()).filter(Boolean);
+}
+
+// หา row ของรถคันนี้ใน Stops sheet (เข้าช่องแล้วเท่านั้นจะมี row)
+function getStopsRow(plate) {
+  const matches = stopsRows.filter(r => {
+    const p = gv(r,'ทะเบียน');
+    return p && (p === plate || platMatch(p, plate));
+  });
+  if (!matches.length) return null;
+  return matches[matches.length - 1];
+}
+
 // ── LOAD DATA ──
+async function fetchSheet(tabName) {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tabName)}`;
+  const res = await fetch(url);
+  const txt = await res.text();
+  const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+  const cols = json.table.cols.map(c => c.label);
+  return json.table.rows
+    .map(r => { const o = {}; cols.forEach((c,i) => { o[c] = r.c&&r.c[i] ? r.c[i].v??'' : ''; }); return o; })
+    .filter(r => cols.some(c => r[c] !== ''));
+}
+
 async function loadData() {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_TAB)}`;
-    const res = await fetch(url);
-    const txt = await res.text();
-    const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
-    const cols = json.table.cols.map(c => c.label);
-    allRows = json.table.rows
-      .map(r => { const o = {}; cols.forEach((c,i) => { o[c] = r.c&&r.c[i] ? r.c[i].v??'' : ''; }); return o; })
-      .filter(r => cols.some(c => r[c] !== ''));
+    allRows = await fetchSheet(SHEET_TAB);
+    try {
+      stopsRows = await fetchSheet(STOPS_TAB);
+    } catch(e2) {
+      stopsRows = [];
+    }
     return true;
   } catch(e) { return false; }
 }
@@ -727,11 +818,6 @@ function renderApp() {
     </div>`
   };
 
-  const goodsBadges = goods
-    ? goods.split(/\s*,\s*/).filter(Boolean).map(g =>
-        `<span class="gbadge ${GOODS_CLS[g.trim()]||'normal'}">${g.trim()}</span>`).join('')
-    : `<span class="no-goods">ยังไม่ระบุสินค้า</span>`;
-
   const queueCards = status === 'wait' ? `
     <div class="queue-pos">
       <div class="qp-box">
@@ -744,16 +830,16 @@ function renderApp() {
       </div>
     </div>` : '';
 
+  const goodsCardHTML = renderGoodsCard(plate, goods, status);
   const parkingHTML = renderParkingLots(todayRows, goods);
+  const bigQueueHTML = renderBigQueue(queue, status, ahead);
 
   document.getElementById('appBody').innerHTML = `
+    ${bigQueueHTML}
     ${statusCards[status]}
     ${queueCards}
 
-    <div class="card">
-      <div class="card-label">สินค้าในรถ</div>
-      <div class="goods-list">${goodsBadges}</div>
-    </div>
+    ${goodsCardHTML}
 
     <div class="parking-section-title">🅿️ สถานะลานจอดรถ</div>
     ${parkingHTML}
@@ -790,6 +876,104 @@ function renderApp() {
       </div>
     </div>
   `;
+}
+
+// ── BIG QUEUE NUMBER ──
+function renderBigQueue(queue, status, ahead) {
+  let pillHTML = '';
+  if (status === 'wait') {
+    if (ahead === 0) {
+      pillHTML = `<div class="bq-pill next">🎉 คุณเป็นคิวถัดไป!</div>`;
+    } else {
+      pillHTML = `<div class="bq-pill wait">รอ ${ahead} คัน ก่อนถึงคุณ</div>`;
+    }
+  } else if (status === 'slot') {
+    pillHTML = `<div class="bq-pill slot">🅿️ กำลังเข้าช่องโหลดของ</div>`;
+  } else {
+    pillHTML = `<div class="bq-pill done">✅ เสร็จสิ้นแล้ว</div>`;
+  }
+
+  return `
+  <div class="big-queue-card">
+    <div class="bq-eyebrow">หมายเลขคิวของคุณ</div>
+    <div class="bq-num ${status}">${queue || '—'}</div>
+    ${pillHTML}
+  </div>`;
+}
+
+// ── GOODS / UNLOAD STATUS CARD ──
+function renderGoodsCard(plate, goods, status) {
+  const stopsRow = getStopsRow(plate);
+
+  // รอในลาน หรือยังไม่มี row ใน Stops -> แสดงสินค้าจากชีท ข้อมูล แบบ badge ปกติ (ยังไม่ได้เริ่มลง)
+  if (status === 'wait' || !stopsRow) {
+    const badges = goods
+      ? parseGoodsList(goods).map(g => `<span class="gbadge ${GOODS_CLS[g]||'normal'}">${g}</span>`).join('')
+      : `<span class="no-goods">ยังไม่ระบุสินค้า</span>`;
+    return `
+    <div class="card">
+      <div class="card-label">สินค้าในรถ</div>
+      <div class="goods-list">${badges}</div>
+    </div>`;
+  }
+
+  const total = parseGoodsList(gv(stopsRow,'ต้องลง'));
+  const done  = parseGoodsList(gv(stopsRow,'ลงแล้ว'));
+
+  let allItems, doneItems, pendingItems;
+  if (status === 'done') {
+    // เสร็จแล้ว -> ทุกอย่างคือ ลงแล้ว
+    allItems = total.length ? total : (done.length ? done : parseGoodsList(goods));
+    pendingItems = [];
+    doneItems = allItems;
+  } else {
+    // เข้าช่องแล้ว -> เทียบ ต้องลง vs ลงแล้ว
+    allItems = total.length ? total : parseGoodsList(goods);
+    pendingItems = allItems.filter(g => !done.includes(g));
+    doneItems = allItems.filter(g => done.includes(g));
+  }
+
+  const summaryHTML = `
+  <div class="goods-summary">
+    <div class="gs-box gs-pending">
+      <div class="gs-val">${pendingItems.length}</div>
+      <div class="gs-lbl">รอลงอีก</div>
+    </div>
+    <div class="gs-box gs-done">
+      <div class="gs-val">${doneItems.length}</div>
+      <div class="gs-lbl">ลงแล้ว</div>
+    </div>
+    <div class="gs-box gs-total">
+      <div class="gs-val">${allItems.length}</div>
+      <div class="gs-lbl">ทั้งหมด</div>
+    </div>
+  </div>`;
+
+  const itemsHTML = pendingItems.map(g => goodsStatusItem(g, false)).join('')
+                  + doneItems.map(g => goodsStatusItem(g, true)).join('');
+
+  return `
+  <div class="card">
+    <div class="card-label">สถานะการลงสินค้า</div>
+    ${summaryHTML}
+    <div class="goods-status-list">${itemsHTML}</div>
+  </div>`;
+}
+
+function goodsStatusItem(g, isDone) {
+  const cls = GOODS_CLS[g] || 'normal';
+  if (isDone) {
+    return `
+    <div class="gstatus-item done">
+      <span class="gbadge ${cls} faded">${g}</span>
+      <span class="gstatus-tag done">✓ ลงแล้ว</span>
+    </div>`;
+  }
+  return `
+  <div class="gstatus-item pending">
+    <span class="gbadge ${cls}">${g}</span>
+    <span class="gstatus-tag pending">รอลง</span>
+  </div>`;
 }
 
 function updateTrack(status) {
