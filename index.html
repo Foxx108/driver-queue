@@ -36,6 +36,10 @@
     --purple-bdr: #a855f7;
     --purple-txt: #c084fc;
 
+    --outside-bg:  #1a0a1a;
+    --outside-bdr: #ec4899;
+    --outside-txt: #f472b6;
+
     --accent:   #D40511;
     --accent2:  #ff5c5c;
     --dhl-yellow: #FFCC00;
@@ -67,6 +71,10 @@
     --purple-bdr: #9333ea;
     --purple-txt: #7e22ce;
 
+    --outside-bg:  #fff0f6;
+    --outside-bdr: #db2777;
+    --outside-txt: #be185d;
+
     --accent:   #D40511;
     --accent2:  #b91c1c;
     --dhl-yellow: #FFCC00;
@@ -77,14 +85,10 @@
 
   .theme-toggle {
     width: 36px; height: 36px;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    border-radius: 50%;
-    cursor: pointer;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 50%; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    transition: background .2s, border-color .2s, transform .1s;
-    flex-shrink: 0;
+    font-size: 16px; transition: background .2s, border-color .2s, transform .1s; flex-shrink: 0;
   }
   .theme-toggle:active { transform: scale(.9); }
 
@@ -100,28 +104,17 @@
     font-size: 22px; letter-spacing: 1px;
     padding: 10px 18px; border-radius: 8px;
   }
-  .dhl-logo-box.small {
-    font-size: 13px; padding: 5px 9px; border-radius: 6px; flex-shrink: 0;
-  }
+  .dhl-logo-box.small { font-size: 13px; padding: 5px 9px; border-radius: 6px; flex-shrink: 0; }
 
   #scanScreen {
     position: fixed; inset: 0; background: var(--bg);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 32px 24px; gap: 24px;
-    transition: background .3s;
+    padding: 32px 24px; gap: 24px; transition: background .3s;
   }
-  .scan-logo {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; letter-spacing: 4px; color: var(--accent2);
-    text-transform: uppercase; margin-bottom: 8px;
-  }
-  .scan-title {
-    font-size: 26px; font-weight: 700; color: var(--text); text-align: center; line-height: 1.3;
-  }
+  .scan-logo { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--accent2); text-transform: uppercase; margin-bottom: 8px; }
+  .scan-title { font-size: 26px; font-weight: 700; color: var(--text); text-align: center; line-height: 1.3; }
   .scan-sub { font-size: 13px; color: var(--sub); text-align: center; }
-  .scan-topbar {
-    position: absolute; top: 20px; right: 20px;
-  }
+  .scan-topbar { position: absolute; top: 20px; right: 20px; }
   .plate-input-wrap { width: 100%; max-width: 340px; position: relative; }
   .plate-input {
     width: 100%; padding: 16px 20px;
@@ -151,66 +144,36 @@
     transition: background .3s, border-color .3s;
   }
   .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
-  .header-left { display: flex; align-items: center; gap: 10px; }
-  .header-plate {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 20px; font-weight: 500; color: var(--text); letter-spacing: 2px;
-  }
-  .header-queue {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px; color: var(--accent2); background: rgba(212,5,17,.12);
-    padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(212,5,17,.3);
-  }
+  .header-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .header-plate { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 500; color: var(--text); letter-spacing: 2px; }
+  .header-queue { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--accent2); background: rgba(212,5,17,.12); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(212,5,17,.3); }
 
-  /* priority badge in header */
-  .priority-badge {
-    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
-    border: 1px solid; letter-spacing: .5px;
-  }
+  .priority-badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid; letter-spacing: .5px; }
   .priority-badge.p1 { background: rgba(59,130,246,.15); color: #60a5fa; border-color: rgba(59,130,246,.4); }
   .priority-badge.p2 { background: rgba(34,197,94,.15);  color: #4ade80; border-color: rgba(34,197,94,.4); }
   .priority-badge.p3 { background: rgba(245,158,11,.15); color: #fbbf24; border-color: rgba(245,158,11,.4); }
   .priority-badge.p4 { background: rgba(112,112,160,.15); color: var(--sub); border-color: var(--border2); }
-  html[data-theme="light"] .priority-badge.p1 { color: #1d4ed8; border-color: rgba(37,99,235,.4); }
-  html[data-theme="light"] .priority-badge.p2 { color: #15803d; border-color: rgba(22,163,74,.4); }
-  html[data-theme="light"] .priority-badge.p3 { color: #b45309; border-color: rgba(217,119,6,.4); }
-  html[data-theme="light"] .priority-badge.p4 { color: var(--sub); }
+  html[data-theme="light"] .priority-badge.p1 { color: #1d4ed8; }
+  html[data-theme="light"] .priority-badge.p2 { color: #15803d; }
+  html[data-theme="light"] .priority-badge.p3 { color: #b45309; }
 
-  .status-track {
-    display: flex; align-items: center; gap: 0; position: relative;
-  }
-  .status-step {
-    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
-    position: relative; z-index: 1;
-  }
-  .step-dot {
-    width: 28px; height: 28px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; border: 2px solid var(--border2);
-    background: var(--surface2); transition: .3s;
-  }
+  .status-track { display: flex; align-items: center; gap: 0; position: relative; }
+  .status-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; z-index: 1; }
+  .step-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; border: 2px solid var(--border2); background: var(--surface2); transition: .3s; }
   .step-dot.done   { background: var(--done-bdr); border-color: var(--done-bdr); }
   .step-dot.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 12px rgba(212,5,17,.4); }
+  .step-dot.outside { background: var(--outside-bdr); border-color: var(--outside-bdr); box-shadow: 0 0 12px rgba(236,72,153,.4); }
   .step-label { font-size: 9px; color: var(--sub); text-align: center; line-height: 1.2; white-space: nowrap; }
-  .step-label.active { color: var(--accent2); }
-  .step-label.done  { color: var(--done-txt); }
-  .step-line {
-    flex: 1; height: 2px; background: var(--border); margin-top: -18px;
-    position: relative; z-index: 0; transition: .3s;
-  }
+  .step-label.active  { color: var(--accent2); }
+  .step-label.done    { color: var(--done-txt); }
+  .step-label.outside { color: var(--outside-txt); }
+  .step-line { flex: 1; height: 2px; background: var(--border); margin-top: -18px; position: relative; z-index: 0; transition: .3s; }
   .step-line.done { background: var(--done-bdr); }
 
   .body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px; }
 
-  .card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px; padding: 16px; margin-bottom: 12px;
-    transition: background .3s, border-color .3s;
-  }
-  .card-label {
-    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
-    text-transform: uppercase; color: var(--sub); margin-bottom: 10px;
-  }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; transition: background .3s, border-color .3s; }
+  .card-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub); margin-bottom: 10px; }
 
   .big-queue-card {
     text-align: center; padding: 22px 16px 20px;
@@ -218,39 +181,43 @@
     background: var(--surface); margin-bottom: 12px;
     transition: background .3s, border-color .3s;
   }
-  .bq-eyebrow {
-    font-size: 10px; font-weight: 600; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--sub); margin-bottom: 4px;
-  }
-  .bq-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 88px; font-weight: 700; line-height: 1;
-    letter-spacing: -2px; transition: color .3s;
-  }
-  .bq-num.wait { color: var(--purple-txt); }
-  .bq-num.slot { color: var(--slot-txt); }
-  .bq-num.done { color: var(--done-txt); }
-  .bq-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 12px; padding: 7px 18px; border-radius: 24px;
-    font-size: 13px; font-weight: 700; border: 1px solid;
-  }
-  .bq-pill.wait { background: var(--purple-bg); color: var(--purple-txt); border-color: var(--purple-bdr); }
-  .bq-pill.next { background: var(--done-bg); color: var(--done-txt); border-color: var(--done-bdr); }
-  .bq-pill.slot { background: var(--slot-bg); color: var(--slot-txt); border-color: var(--slot-bdr); }
-  .bq-pill.done { background: var(--done-bg); color: var(--done-txt); border-color: var(--done-bdr); }
-
-  /* original queue note */
+  .bq-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--sub); margin-bottom: 4px; }
+  .bq-num { font-family: 'IBM Plex Mono', monospace; font-size: 88px; font-weight: 700; line-height: 1; letter-spacing: -2px; transition: color .3s; }
+  .bq-num.wait    { color: var(--purple-txt); }
+  .bq-num.outside { color: var(--outside-txt); }
+  .bq-num.slot    { color: var(--slot-txt); }
+  .bq-num.done    { color: var(--done-txt); }
+  .bq-pill { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 7px 18px; border-radius: 24px; font-size: 13px; font-weight: 700; border: 1px solid; }
+  .bq-pill.wait    { background: var(--purple-bg);  color: var(--purple-txt);  border-color: var(--purple-bdr); }
+  .bq-pill.outside { background: var(--outside-bg); color: var(--outside-txt); border-color: var(--outside-bdr); }
+  .bq-pill.next    { background: var(--done-bg);    color: var(--done-txt);    border-color: var(--done-bdr); }
+  .bq-pill.slot    { background: var(--slot-bg);    color: var(--slot-txt);    border-color: var(--slot-bdr); }
+  .bq-pill.done    { background: var(--done-bg);    color: var(--done-txt);    border-color: var(--done-bdr); }
   .bq-orig { font-size: 11px; color: var(--muted); margin-top: 6px; }
 
-  .status-card {
+  /* ── Outside parking banner ── */
+  .outside-banner {
     border-radius: 16px; padding: 18px 16px; margin-bottom: 12px;
-    border: 1.5px solid; display: flex; align-items: center; gap: 14px;
-    transition: background .3s;
+    border: 1.5px solid var(--outside-bdr);
+    background: var(--outside-bg);
+    display: flex; align-items: flex-start; gap: 14px;
+    animation: pulse-outside 2s ease-in-out infinite;
   }
-  .status-card.wait { background: var(--wait-bg); border-color: var(--wait-bdr); }
-  .status-card.slot { background: var(--slot-bg); border-color: var(--slot-bdr); }
-  .status-card.done { background: var(--done-bg); border-color: var(--done-bdr); }
+  @keyframes pulse-outside {
+    0%,100% { box-shadow: 0 0 0 0 rgba(236,72,153,0); }
+    50%      { box-shadow: 0 0 0 6px rgba(236,72,153,.15); }
+  }
+  .outside-icon { font-size: 32px; flex-shrink: 0; }
+  .outside-main { font-size: 16px; font-weight: 700; color: var(--outside-txt); }
+  .outside-desc { font-size: 12px; color: var(--sub); margin-top: 4px; line-height: 1.6; }
+  .outside-steps { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .outside-step { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--sub); }
+  .outside-step-num { width: 20px; height: 20px; border-radius: 50%; background: var(--outside-bdr); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  .status-card { border-radius: 16px; padding: 18px 16px; margin-bottom: 12px; border: 1.5px solid; display: flex; align-items: center; gap: 14px; transition: background .3s; }
+  .status-card.wait    { background: var(--wait-bg);    border-color: var(--wait-bdr); }
+  .status-card.slot    { background: var(--slot-bg);    border-color: var(--slot-bdr); }
+  .status-card.done    { background: var(--done-bg);    border-color: var(--done-bdr); }
   .status-icon { font-size: 32px; flex-shrink: 0; }
   .status-main { font-size: 16px; font-weight: 700; }
   .wait .status-main { color: var(--wait-txt); }
@@ -258,47 +225,31 @@
   .done .status-main { color: var(--done-txt); }
   .status-desc { font-size: 12px; color: var(--sub); margin-top: 3px; }
 
-  .queue-pos {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;
-  }
-  .qp-box {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 12px 14px;
-    transition: background .3s, border-color .3s;
-  }
+  .queue-pos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .qp-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; transition: background .3s, border-color .3s; }
   .qp-label { font-size: 10px; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
   .qp-val { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 500; color: var(--text); }
   .qp-val.accent { color: var(--accent2); }
+  .qp-val.outside-color { color: var(--outside-txt); }
 
   .goods-list { display: flex; flex-wrap: wrap; gap: 7px; }
-  .gbadge {
-    padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
-    border: 1px solid; transition: opacity .3s;
-  }
-  .gbadge.fresh  { background: rgba(34,197,94,.1);  color: #16a34a; border-color: rgba(34,197,94,.3); }
-  .gbadge.b2b    { background: rgba(59,130,246,.1); color: #1d4ed8; border-color: rgba(59,130,246,.3); }
-  .gbadge.sme    { background: rgba(245,158,11,.1); color: #b45309; border-color: rgba(245,158,11,.3); }
-  .gbadge.focus  { background: rgba(168,85,247,.1); color: #7e22ce; border-color: rgba(168,85,247,.3); }
-  .gbadge.u1     { background: rgba(239,68,68,.1);  color: #b91c1c; border-color: rgba(239,68,68,.3); }
+  .gbadge { padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; border: 1px solid; transition: opacity .3s; }
+  .gbadge.fresh  { background: rgba(34,197,94,.1);   color: #16a34a; border-color: rgba(34,197,94,.3); }
+  .gbadge.b2b    { background: rgba(59,130,246,.1);  color: #1d4ed8; border-color: rgba(59,130,246,.3); }
+  .gbadge.sme    { background: rgba(245,158,11,.1);  color: #b45309; border-color: rgba(245,158,11,.3); }
+  .gbadge.focus  { background: rgba(168,85,247,.1);  color: #7e22ce; border-color: rgba(168,85,247,.3); }
+  .gbadge.u1     { background: rgba(239,68,68,.1);   color: #b91c1c; border-color: rgba(239,68,68,.3); }
   .gbadge.normal { background: rgba(112,112,160,.1); color: var(--sub); border-color: var(--border2); }
-
   html[data-theme="dark"] .gbadge.fresh  { color: #4ade80; }
   html[data-theme="dark"] .gbadge.b2b   { color: #60a5fa; }
   html[data-theme="dark"] .gbadge.sme   { color: #fbbf24; }
   html[data-theme="dark"] .gbadge.focus { color: #c084fc; }
   html[data-theme="dark"] .gbadge.u1    { color: #f87171; }
-
   .gbadge.faded { opacity: .45; }
   .no-goods { font-size: 13px; color: var(--muted); font-style: italic; }
 
-  .goods-summary {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;
-  }
-  .gs-box {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 10px 8px; text-align: center;
-    transition: background .3s, border-color .3s;
-  }
+  .goods-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .gs-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 8px; text-align: center; transition: background .3s, border-color .3s; }
   .gs-val { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; }
   .gs-lbl { font-size: 10px; color: var(--sub); margin-top: 2px; text-transform: uppercase; letter-spacing: .5px; }
   .gs-box.gs-pending .gs-val { color: var(--wait-txt); }
@@ -306,11 +257,7 @@
   .gs-box.gs-total   .gs-val { color: var(--text); }
 
   .goods-status-list { display: flex; flex-direction: column; gap: 8px; }
-  .gstatus-item {
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
-    background: var(--surface2); transition: opacity .4s, background .3s, border-color .3s;
-  }
+  .gstatus-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); transition: opacity .4s, background .3s, border-color .3s; }
   .gstatus-item.done { opacity: .5; }
   .gstatus-tag { font-size: 12px; font-weight: 700; }
   .gstatus-tag.pending { color: var(--wait-txt); }
@@ -322,70 +269,31 @@
   .time-val { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--text); }
   .time-val.empty { color: var(--muted); font-style: italic; font-family: inherit; }
 
-  .refresh-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 14px; background: var(--surface); border-top: 1px solid var(--border);
-    flex-shrink: 0; gap: 8px;
-    transition: background .3s, border-color .3s;
-  }
+  .refresh-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--surface); border-top: 1px solid var(--border); flex-shrink: 0; gap: 8px; transition: background .3s, border-color .3s; }
   .refresh-info { font-size: 11px; color: var(--muted); flex: 1; text-align: center; }
-  .refresh-btn {
-    padding: 7px 16px; background: var(--surface2); border: 1px solid var(--border2);
-    border-radius: 10px; color: var(--text); font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px;
-    transition: background .3s;
-  }
-  .back-btn {
-    padding: 7px 14px; background: transparent; border: 1px solid var(--border);
-    border-radius: 10px; color: var(--sub); font-size: 12px;
-    cursor: pointer; font-family: inherit; white-space: nowrap;
-  }
+  .refresh-btn { padding: 7px 16px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px; transition: background .3s; }
+  .back-btn { padding: 7px 14px; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--sub); font-size: 12px; cursor: pointer; font-family: inherit; white-space: nowrap; }
 
-  .spinner {
-    width: 20px; height: 20px; border: 2px solid var(--border2);
-    border-top-color: var(--accent); border-radius: 50%;
-    animation: spin .7s linear infinite; display: inline-block;
-  }
+  .spinner { width: 20px; height: 20px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .not-found {
-    text-align: center; padding: 48px 24px;
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
-  }
-  .nf-icon { font-size: 52px; }
-  .nf-title { font-size: 18px; font-weight: 700; color: var(--text); }
-  .nf-sub { font-size: 13px; color: var(--sub); line-height: 1.6; }
-  .nf-plate {
-    font-family: 'IBM Plex Mono', monospace; font-size: 20px;
-    color: var(--accent2); background: rgba(212,5,17,.1);
-    padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(212,5,17,.2);
-  }
-
-  .toast {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    background: var(--surface2); border: 1px solid var(--border2);
-    color: var(--text); padding: 10px 20px; border-radius: 12px;
-    font-size: 13px; z-index: 999; opacity: 0; transition: .3s;
-    white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,.2);
-  }
-  .toast.show { opacity: 1; }
-  .toast.ok   { border-color: var(--done-bdr); color: var(--done-txt); }
-  .toast.err  { border-color: #f87171; color: #f87171; }
-
   .spin-anim { animation: spin .7s linear infinite; display: inline-block; }
 
-  .lot-card {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; overflow: hidden;
-    transition: background .3s, border-color .3s;
-  }
+  .not-found { text-align: center; padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .nf-icon  { font-size: 52px; }
+  .nf-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .nf-sub   { font-size: 13px; color: var(--sub); line-height: 1.6; }
+  .nf-plate { font-family: 'IBM Plex Mono', monospace; font-size: 20px; color: var(--accent2); background: rgba(212,5,17,.1); padding: 8px 20px; border-radius: 10px; border: 1px solid rgba(212,5,17,.2); }
+
+  .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--surface2); border: 1px solid var(--border2); color: var(--text); padding: 10px 20px; border-radius: 12px; font-size: 13px; z-index: 999; opacity: 0; transition: .3s; white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,.2); }
+  .toast.show { opacity: 1; }
+  .toast.ok  { border-color: var(--done-bdr); color: var(--done-txt); }
+  .toast.err { border-color: #f87171; color: #f87171; }
+
+  /* Parking lots */
+  .lot-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; overflow: hidden; transition: background .3s, border-color .3s; }
   .lot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .lot-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
-  .lot-num {
-    width: 26px; height: 26px; border-radius: 50%; background: var(--accent);
-    color: #fff; font-size: 12px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
+  .lot-num { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .lot-types { font-size: 10px; color: var(--sub); margin-top: 1px; }
   .lot-count { text-align: right; }
   .lot-used { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; }
@@ -401,39 +309,32 @@
   .lot-remain.warn { color: var(--wait-txt); }
   .lot-remain.full { color: #f87171; }
   .lot-time-note { font-size: 10px; color: var(--sub); }
-  .lot-full-badge {
-    display: inline-block; padding: 2px 8px; border-radius: 6px;
-    font-size: 10px; font-weight: 700; background: rgba(239,68,68,.15); color: #f87171;
-    border: 1px solid rgba(239,68,68,.3);
-  }
-  .parking-section-title {
-    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
-    text-transform: uppercase; color: var(--sub); margin: 14px 0 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
+  .lot-full-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; background: rgba(239,68,68,.15); color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+  .parking-section-title { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub); margin: 14px 0 8px; display: flex; align-items: center; gap: 6px; }
   .my-lot-highlight { border-color: var(--accent) !important; }
-  .my-lot-badge {
-    font-size: 10px; font-weight: 700; color: var(--accent2);
-    background: rgba(212,5,17,.15); padding: 2px 8px; border-radius: 6px;
-    border: 1px solid rgba(212,5,17,.3);
-  }
+  .my-lot-badge { font-size: 10px; font-weight: 700; color: var(--accent2); background: rgba(212,5,17,.15); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(212,5,17,.3); }
 
-  /* Priority info box */
-  .priority-info-card {
-    border-radius: 14px; padding: 14px 16px; margin-bottom: 12px;
-    border: 1.5px solid rgba(59,130,246,.3);
-    background: rgba(59,130,246,.07);
-    display: flex; align-items: flex-start; gap: 12px;
+  /* Outside lot */
+  .outside-lot-card {
+    background: var(--outside-bg); border: 1.5px solid var(--outside-bdr);
+    border-radius: 16px; padding: 14px 16px; margin-bottom: 10px;
   }
-  .pi-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .outside-lot-title { font-size: 14px; font-weight: 700; color: var(--outside-txt); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .outside-lot-sub   { font-size: 11px; color: var(--sub); margin-bottom: 10px; }
+  .outside-lot-count { display: flex; justify-content: space-between; align-items: center; }
+  .outside-lot-num   { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 700; color: var(--outside-txt); }
+  .outside-lot-lbl   { font-size: 10px; color: var(--sub); }
+  .outside-lot-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--outside-txt); background: rgba(236,72,153,.1); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--outside-bdr); }
+
+  /* Priority info */
+  .priority-info-card { border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; border: 1.5px solid rgba(59,130,246,.3); background: rgba(59,130,246,.07); display: flex; align-items: flex-start; gap: 12px; }
+  .pi-icon  { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
   .pi-title { font-size: 13px; font-weight: 700; color: var(--slot-txt); margin-bottom: 3px; }
-  .pi-desc { font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .pi-desc  { font-size: 11px; color: var(--sub); line-height: 1.5; }
   .pi-tiers { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px; }
-  .pi-tier {
-    font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 6px; border: 1px solid;
-  }
+  .pi-tier  { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 6px; border: 1px solid; }
   .pi-tier.t1 { background: rgba(59,130,246,.1); color: #60a5fa; border-color: rgba(59,130,246,.3); }
-  .pi-tier.t2 { background: rgba(34,197,94,.1); color: #4ade80; border-color: rgba(34,197,94,.3); }
+  .pi-tier.t2 { background: rgba(34,197,94,.1);  color: #4ade80; border-color: rgba(34,197,94,.3); }
   .pi-tier.t3 { background: rgba(245,158,11,.1); color: #fbbf24; border-color: rgba(245,158,11,.3); }
   .pi-tier.t4 { background: rgba(112,112,160,.1); color: var(--sub); border-color: var(--border2); }
   html[data-theme="light"] .pi-tier.t1 { color: #1d4ed8; }
@@ -479,28 +380,32 @@
       </div>
       <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleMain" title="สลับโหมด">🌙</button>
     </div>
+    <!-- 4-step track: ข้างนอก → ในลาน → เข้าช่อง → เสร็จ -->
     <div class="status-track">
       <div class="status-step">
         <div class="step-dot" id="dot0">1</div>
-        <div class="step-label" id="lbl0">รอในลาน</div>
+        <div class="step-label" id="lbl0">รอข้างนอก</div>
       </div>
       <div class="step-line" id="line0"></div>
       <div class="status-step">
         <div class="step-dot" id="dot1">2</div>
-        <div class="step-label" id="lbl1">เข้าช่อง</div>
+        <div class="step-label" id="lbl1">เข้าลาน</div>
       </div>
       <div class="step-line" id="line1"></div>
       <div class="status-step">
-        <div class="step-dot" id="dot2">✓</div>
-        <div class="step-label" id="lbl2">เสร็จแล้ว</div>
+        <div class="step-dot" id="dot2">3</div>
+        <div class="step-label" id="lbl2">เข้าช่อง</div>
+      </div>
+      <div class="step-line" id="line2"></div>
+      <div class="status-step">
+        <div class="step-dot" id="dot3">✓</div>
+        <div class="step-label" id="lbl3">เสร็จแล้ว</div>
       </div>
     </div>
   </div>
 
   <div class="body" id="appBody">
-    <div style="text-align:center;padding:40px 0">
-      <div class="spinner"></div>
-    </div>
+    <div style="text-align:center;padding:40px 0"><div class="spinner"></div></div>
   </div>
 
   <div class="refresh-bar">
@@ -518,7 +423,6 @@
 // ── THEME ──
 const THEME_KEY = 'dq_theme';
 let currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
-
 function applyTheme(theme) {
   currentTheme = theme;
   document.documentElement.setAttribute('data-theme', theme);
@@ -534,84 +438,69 @@ applyTheme(currentTheme);
 const SHEET_ID  = '1PI58Pj1eVkMLujqauSo_DdaAMQric9LqS4fZf1Xtues';
 const SHEET_TAB = 'ข้อมูล';
 const STOPS_TAB = 'Stops';
-const GOODS_CLS = {Normal:'normal',SME:'sme',Fresh:'fresh',B2B:'b2b',Focus:'focus',U1:'u1'};
+const GOODS_CLS = { Normal:'normal', SME:'sme', Fresh:'fresh', B2B:'b2b', Focus:'focus', U1:'u1' };
 
-// ── PRIORITY LOGIC ──
-// Tier 1 = B2B (truck has B2B in goods list)
-// Tier 2 = Fresh OR U1
-// Tier 3 = SME OR Focus
-// Tier 4 = Normal only
-// Within same tier → sort by arrival time (original queue order)
-// Special: trucks arriving BEFORE 19:00 get a sub-sort bonus within their tier
-//          (arrive before 19:00 → sub=0, after 19:00 → sub=1)
-//          so early arrivals always precede late arrivals in the same tier
-
+// ── PRIORITY ──
 function getPriorityTier(goods) {
   if (!goods) return 4;
   const list = goods.split(/\s*,\s*/).map(g => g.trim());
-  if (list.includes('B2B'))   return 1;
-  if (list.includes('Fresh') || list.includes('U1'))   return 2;
-  if (list.includes('SME')   || list.includes('Focus')) return 3;
+  if (list.includes('B2B'))                                return 1;
+  if (list.includes('Fresh') || list.includes('U1'))       return 2;
+  if (list.includes('SME')   || list.includes('Focus'))    return 3;
   return 4;
 }
-
 const PRIORITY_LABELS = {
-  1: { label: 'B2B Priority', cls: 'p1' },
-  2: { label: 'Fresh/U1',     cls: 'p2' },
-  3: { label: 'SME/Focus',    cls: 'p3' },
-  4: { label: 'Normal',       cls: 'p4' },
+  1: { label:'B2B Priority', cls:'p1' },
+  2: { label:'Fresh/U1',     cls:'p2' },
+  3: { label:'SME/Focus',    cls:'p3' },
+  4: { label:'Normal',       cls:'p4' },
 };
 
-// Build priority-sorted queue for "wait" trucks, assign new effective queue numbers
-// Returns array of { plate, effectiveQ, originalQ, tier, arrivalDate }
 function buildPriorityQueue(todayRows) {
+  // นับเฉพาะรถที่รอในลาน (wait + เข้าจอดแล้ว) สำหรับ effective queue
   const waitRows = todayRows.filter(r => getStatus(r) === 'wait');
-
   const enriched = waitRows.map(r => {
     const goods   = gv(r, 'สินค้า');
     const tier    = getPriorityTier(goods);
     const arrival = parseThaiDate(gv(r, 'เวลา'));
     const hour    = arrival ? arrival.getHours() : 99;
-    const sub     = hour < 19 ? 0 : 1;   // before 19:00 gets sub=0 (higher priority)
+    const sub     = hour < 19 ? 0 : 1;
     const origQ   = parseInt(gv(r, 'คิว')) || 9999;
     return { row: r, plate: gv(r, 'เลขทะเบียนรถ'), tier, sub, origQ, arrival };
   });
-
-  // Sort: tier ASC → sub ASC → origQ ASC
-  enriched.sort((a, b) =>
+  enriched.sort((a,b) =>
     a.tier !== b.tier ? a.tier - b.tier :
     a.sub  !== b.sub  ? a.sub  - b.sub  :
     a.origQ - b.origQ
   );
-
-  return enriched.map((e, i) => ({ ...e, effectiveQ: i + 1 }));
+  return enriched.map((e,i) => ({ ...e, effectiveQ: i+1 }));
 }
 
 // ── PARKING LOTS CONFIG ──
 const LOTS = [
   {
-    id: 3, name: 'จุดที่ 3', icon: '🏢',
+    id: 3, name:'จุดที่ 3', icon:'🏢',
     types: ['Normal','SME','Focus','U1'],
     typeLabel: 'ทั่วไป (Normal, SME, Focus, U1)',
     schedule: [
-      { fromHour: 0,  cap: 10 },
-      { fromHour: 17, cap: 10 },
-      { fromHour: 18, cap: 20 },
-      { fromHour: 19, cap: 30 },
-      { fromHour: 20, cap: 40 },
+      { fromHour:0,  cap:10 },
+      { fromHour:17, cap:10 },
+      { fromHour:18, cap:20 },
+      { fromHour:19, cap:30 },
+      { fromHour:20, cap:40 },
     ]
   },
   {
-    id: 4, name: 'จุดที่ 4', icon: '🌿',
+    id: 4, name:'จุดที่ 4', icon:'🌿',
     types: ['Normal','SME','Focus','U1','Fresh'],
     typeLabel: 'ทั่วไป + Fresh',
-    schedule: [{ fromHour: 0, cap: 50 }]
+    schedule: [{ fromHour:0, cap:50 }]
   },
   {
-    id: 5, name: 'จุดที่ 5', icon: '📦',
+    id: 5, name:'จุดที่ 5', icon:'📦',
     types: ['B2B'],
     typeLabel: 'B2B',
-    schedule: [{ fromHour: 0, cap: 15 }]
+    schedule: [{ fromHour:0, cap:15 }]
   }
 ];
 
@@ -620,21 +509,28 @@ function getLotCapacity(lot) {
   const sched = [...lot.schedule].reverse().find(s => h >= s.fromHour);
   return sched ? sched.cap : lot.schedule[0].cap;
 }
-
 function getNextCapTime(lot) {
   const h = new Date().getHours();
   const next = lot.schedule.find(s => s.fromHour > h);
-  if (!next) return null;
-  return `${next.fromHour}:00 จอดได้ ${next.cap} คัน`;
+  return next ? `${next.fromHour}:00 จอดได้ ${next.cap} คัน` : null;
 }
 
+// ✅ นับเฉพาะรถที่ เข้าจอด = TRUE และยังไม่เสร็จ
 function countLotUsed(lot, todayRows) {
   return todayRows.filter(r => {
-    const status = getStatus(r);
-    if (status === 'done') return false;
+    if (getStatus(r) === 'done') return false;
+    if (!getEnteredLot(r)) return false;   // ✅ ข้ามรถที่จอดข้างนอก
     const goods = gv(r, 'สินค้า');
     if (!goods) return false;
     return goods.split(/\s*,\s*/).some(g => lot.types.includes(g.trim()));
+  }).length;
+}
+
+// นับรถที่จอดข้างนอก (เข้าจอด = FALSE และยังไม่เสร็จ)
+function countOutside(todayRows) {
+  return todayRows.filter(r => {
+    if (getStatus(r) === 'done') return false;
+    return !getEnteredLot(r);
   }).length;
 }
 
@@ -646,20 +542,21 @@ function getMyLot(goods) {
   return 3;
 }
 
-function renderParkingLots(todayRows, myGoods) {
-  const myLotId = getMyLot(myGoods);
-  return LOTS.map(lot => {
+function renderParkingSection(todayRows, myGoods, isOutside) {
+  const myLotId   = getMyLot(myGoods);
+  const outsideCount = countOutside(todayRows);
+
+  const lotsHTML = LOTS.map(lot => {
     const cap   = getLotCapacity(lot);
     const used  = countLotUsed(lot, todayRows);
     const avail = Math.max(0, cap - used);
     const pct   = Math.min(100, Math.round(used / cap * 100));
     const barCls  = pct >= 100 ? 'full' : pct >= 75 ? 'warn' : 'ok';
-    const textCls = barCls;
     const nextTime  = getNextCapTime(lot);
     const isMyLot   = lot.id === myLotId;
     const remainText = avail === 0
       ? `<span class="lot-full-badge">⛔ เต็มแล้ว</span>`
-      : `<span class="lot-remain ${textCls}">ว่าง ${avail} คัน</span>`;
+      : `<span class="lot-remain ${barCls}">ว่าง ${avail} คัน</span>`;
 
     return `
     <div class="lot-card ${isMyLot ? 'my-lot-highlight' : ''}">
@@ -677,17 +574,35 @@ function renderParkingLots(todayRows, myGoods) {
           <div class="lot-cap">คัน</div>
         </div>
       </div>
-      <div class="lot-bar-wrap">
-        <div class="lot-bar ${barCls}" style="width:${pct}%"></div>
-      </div>
+      <div class="lot-bar-wrap"><div class="lot-bar ${barCls}" style="width:${pct}%"></div></div>
       <div class="lot-footer">
         ${remainText}
-        <span class="lot-time-note">${nextTime ? '🕐 ' + nextTime : '⏰ ความจุคงที่'}</span>
+        <span class="lot-time-note">${nextTime ? '🕐 '+nextTime : '⏰ ความจุคงที่'}</span>
       </div>
     </div>`;
   }).join('');
+
+  // Outside lot card (จอดข้างนอก ไม่จำกัด)
+  const outsideHTML = `
+  <div class="outside-lot-card">
+    <div class="outside-lot-title">
+      🚗 จุดจอดรอข้างนอก
+      ${isOutside ? '<span class="my-lot-badge" style="background:rgba(236,72,153,.15);color:var(--outside-txt);border-color:var(--outside-bdr)">✦ คุณอยู่ที่นี่</span>' : ''}
+    </div>
+    <div class="outside-lot-sub">จอดรอนอกคลังก่อน — เจ้าหน้าที่จะเรียกเข้าเมื่อมีที่ว่างในลาน (ไม่จำกัดความจุ)</div>
+    <div class="outside-lot-count">
+      <div>
+        <div class="outside-lot-num">${outsideCount}</div>
+        <div class="outside-lot-lbl">คันที่รออยู่ข้างนอก</div>
+      </div>
+      <div class="outside-lot-badge">♾️ ไม่จำกัดที่จอด</div>
+    </div>
+  </div>`;
+
+  return outsideHTML + lotsHTML;
 }
 
+// ── GLOBAL STATE ──
 let allRows = [], stopsRows = [], currentPlate = '', refreshTimer;
 
 // ── HELPERS ──
@@ -730,18 +645,29 @@ function todayKey() {
   return `${n.getDate()}/${n.getMonth()+1}/${y}`;
 }
 
+// อ่านสถานะจาก col I สถานะปัจจุบัน
 function getStatus(r) {
-  const statusText = gv(r, 'สถานะปัจจุบัน', 'สถานะ');
-  if (statusText) {
-    if (statusText.includes('เสร็จ')) return 'done';
-    if (statusText.includes('เข้าช่อง') || statusText.includes('กำลังลง') || /Stop\s*\d+/i.test(statusText)) return 'slot';
-    if (statusText.includes('รอ')) return 'wait';
+  const st = gv(r, 'สถานะปัจจุบัน', 'สถานะ');
+  if (st) {
+    if (st.includes('เสร็จ'))  return 'done';
+    if (st.includes('เข้าช่อง') || st.includes('กำลังลง') || /Stop\s*\d+/i.test(st)) return 'slot';
+    if (st.includes('รอ'))     return 'wait';
   }
+  // fallback
   const done = gv(r, 'เวลาลงของเสร็จ');
   const slot = gv(r, 'เวลาเข้าช่อง');
   if (done && done !== 'FALSE') return 'done';
   if (slot && slot !== 'FALSE') return 'slot';
   return 'wait';
+}
+
+// ✅ อ่าน col J "เข้าจอด" TRUE = จอดในลานแล้ว, FALSE = ยังข้างนอก
+function getEnteredLot(r) {
+  const v = r['เข้าจอด'];
+  if (v === true || v === 'TRUE' || v === 'true') return true;
+  if (v === false || v === 'FALSE' || v === 'false') return false;
+  // ถ้าไม่มีคอลัม → ถือว่าเข้าแล้ว (backward compat)
+  return true;
 }
 
 function platMatch(plate, input) {
@@ -756,7 +682,7 @@ function parseGoodsList(s) {
 
 function getStopsRow(plate) {
   const matches = stopsRows.filter(r => {
-    const p = gv(r, 'ทะเบียน');
+    const p = gv(r,'ทะเบียน');
     return p && (p === plate || platMatch(p, plate));
   });
   if (!matches.length) return null;
@@ -771,7 +697,7 @@ async function fetchSheet(tabName) {
   const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
   const cols = json.table.cols.map(c => c.label);
   return json.table.rows
-    .map(r => { const o = {}; cols.forEach((c,i) => { o[c] = r.c&&r.c[i] ? r.c[i].v??'' : ''; }); return o; })
+    .map(r => { const o={}; cols.forEach((c,i) => { o[c] = r.c&&r.c[i] ? r.c[i].v??'' : ''; }); return o; })
     .filter(r => cols.some(c => r[c] !== ''));
 }
 
@@ -793,7 +719,6 @@ async function searchPlate() {
   document.getElementById('scanErr').textContent = '';
   document.getElementById('scanBtnIcon').innerHTML = '<span class="spin-anim">⟳</span>';
   document.getElementById('scanBtnText').textContent = 'กำลังค้นหา...';
-
   const ok = await loadData();
   if (!ok) {
     document.getElementById('scanErr').textContent = 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง';
@@ -801,7 +726,6 @@ async function searchPlate() {
     document.getElementById('scanBtnText').textContent = 'ค้นหาคิว';
     return;
   }
-
   currentPlate = input;
   showApp();
 }
@@ -831,14 +755,14 @@ async function refresh() {
   showToast('✅ อัปเดตแล้ว', 'ok');
 }
 
-// ── RENDER APP ──
+// ── RENDER ──
 function renderApp() {
   const tk = todayKey();
   const todayRows = allRows.filter(r => {
-    const d = parseThaiDate(gv(r, 'เวลา'));
+    const d = parseThaiDate(gv(r,'เวลา'));
     return d && `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+543}` === tk;
   });
-  const row = todayRows.find(r => platMatch(gv(r, 'เลขทะเบียนรถ'), currentPlate));
+  const row = todayRows.find(r => platMatch(gv(r,'เลขทะเบียนรถ'), currentPlate));
 
   document.getElementById('refreshInfo').textContent =
     `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}`;
@@ -847,7 +771,7 @@ function renderApp() {
     document.getElementById('hPlate').textContent = currentPlate.toUpperCase();
     document.getElementById('hQueue').textContent = 'ไม่พบคิว';
     document.getElementById('hPriorityBadge').innerHTML = '';
-    updateTrack('wait');
+    updateTrack('outside'); // default step 0
     document.getElementById('appBody').innerHTML = `
       <div class="not-found">
         <div class="nf-icon">🔍</div>
@@ -858,60 +782,81 @@ function renderApp() {
     return;
   }
 
-  const status = getStatus(row);
-  const plate  = gv(row, 'เลขทะเบียนรถ');
-  const origQ  = gv(row, 'คิว');
-  const goods  = gv(row, 'สินค้า');
-  const type   = gv(row, 'ประเภทรถ');
-  const phone  = gv(row, 'เบอร์โทรคนขับ');
-  const tIn    = fmtTime(gv(row, 'เวลา'));
-  const tSlot  = fmtTime(gv(row, 'เวลาเข้าช่อง'));
-  const tDone  = fmtTime(gv(row, 'เวลาลงของเสร็จ'));
-  const tier   = getPriorityTier(goods);
+  const status     = getStatus(row);
+  const enteredLot = getEnteredLot(row);  // ✅ TRUE = ในลาน, FALSE = ข้างนอก
+  const isOutside  = (status === 'wait') && !enteredLot;
 
-  // ── BUILD PRIORITY QUEUE ──
-  const pQueue = buildPriorityQueue(todayRows);
+  const plate = gv(row, 'เลขทะเบียนรถ');
+  const origQ = gv(row, 'คิว');
+  const goods = gv(row, 'สินค้า');
+  const type  = gv(row, 'ประเภทรถ');
+  const phone = gv(row, 'เบอร์โทรคนขับ');
+  const tIn   = fmtTime(gv(row, 'เวลา'));
+  const tSlot = fmtTime(gv(row, 'เวลาเข้าช่อง'));
+  const tDone = fmtTime(gv(row, 'เวลาลงของเสร็จ'));
+  const tier  = getPriorityTier(goods);
+
+  // Priority queue (เฉพาะรถที่อยู่ในลาน เพื่อ effective queue ที่แม่นยำ)
+  const pQueue  = buildPriorityQueue(todayRows);
   const myEntry = pQueue.find(e => e.plate === plate);
   const effectiveQ = myEntry ? myEntry.effectiveQ : (parseInt(origQ) || '—');
-  const ahead = myEntry ? myEntry.effectiveQ - 1 : 0;
+  const ahead      = myEntry ? myEntry.effectiveQ - 1 : 0;
 
   // Header
   document.getElementById('hPlate').textContent = plate;
-  // Show effective queue in header if waiting, else original
   const displayQ = status === 'wait' ? effectiveQ : (parseInt(origQ) || '—');
   document.getElementById('hQueue').textContent = `คิว ${displayQ}`;
   const pl = PRIORITY_LABELS[tier];
   document.getElementById('hPriorityBadge').innerHTML =
     `<span class="priority-badge ${pl.cls}">${pl.label}</span>`;
 
-  updateTrack(status);
+  // ✅ track step: outside(0) → inLot(1) → slot(2) → done(3)
+  const trackStep = status === 'done' ? 3 : status === 'slot' ? 2 : isOutside ? 0 : 1;
+  updateTrack(trackStep);
 
-  // Status cards
-  const statusCards = {
-    wait: `<div class="status-card wait">
-      <div class="status-icon">⏳</div>
-      <div class="status-info">
-        <div class="status-main">รอเรียกเข้าช่อง</div>
-        <div class="status-desc">รอให้เจ้าหน้าที่เรียกเข้าช่องโหลดของ</div>
-      </div>
-    </div>`,
-    slot: `<div class="status-card slot">
-      <div class="status-icon">🅿️</div>
-      <div class="status-info">
-        <div class="status-main">เข้าช่องโหลดของแล้ว</div>
-        <div class="status-desc">กำลังดำเนินการโหลดสินค้า</div>
-      </div>
-    </div>`,
-    done: `<div class="status-card done">
+  // Status card
+  let statusCardHTML = '';
+  if (status === 'done') {
+    statusCardHTML = `<div class="status-card done">
       <div class="status-icon">✅</div>
       <div class="status-info">
         <div class="status-main">ลงของเสร็จแล้ว</div>
         <div class="status-desc">ดำเนินการเสร็จสิ้น สามารถออกได้เลย</div>
+      </div></div>`;
+  } else if (status === 'slot') {
+    statusCardHTML = `<div class="status-card slot">
+      <div class="status-icon">🅿️</div>
+      <div class="status-info">
+        <div class="status-main">เข้าช่องโหลดของแล้ว</div>
+        <div class="status-desc">กำลังดำเนินการโหลดสินค้า</div>
+      </div></div>`;
+  } else if (isOutside) {
+    // รอข้างนอก
+    statusCardHTML = `
+    <div class="outside-banner">
+      <div class="outside-icon">🚗</div>
+      <div>
+        <div class="outside-main">จอดรอข้างนอกก่อน</div>
+        <div class="outside-desc">ลานจอดในคลังยังเต็มอยู่<br>กรุณาจอดรอบริเวณข้างนอกก่อน เจ้าหน้าที่จะเรียกเข้าเมื่อมีที่ว่าง</div>
+        <div class="outside-steps">
+          <div class="outside-step"><span class="outside-step-num">1</span> จอดรถรอบริเวณข้างนอกอาคาร</div>
+          <div class="outside-step"><span class="outside-step-num">2</span> รอรับสัญญาณจากเจ้าหน้าที่</div>
+          <div class="outside-step"><span class="outside-step-num">3</span> เข้ามาจอดในลานเมื่อถูกเรียก</div>
+        </div>
       </div>
-    </div>`
-  };
+    </div>`;
+  } else {
+    // รอในลาน (เข้าจอดแล้ว)
+    statusCardHTML = `<div class="status-card wait">
+      <div class="status-icon">⏳</div>
+      <div class="status-info">
+        <div class="status-main">จอดในลานแล้ว — รอเรียกเข้าช่อง</div>
+        <div class="status-desc">รถของคุณเข้าจอดในลานแล้ว รอเจ้าหน้าที่เรียกเข้าช่องโหลดของ</div>
+      </div></div>`;
+  }
 
-  const queueCards = status === 'wait' ? `
+  // Queue position cards
+  const queueCards = (status === 'wait' && !isOutside) ? `
     <div class="queue-pos">
       <div class="qp-box">
         <div class="qp-label">คิวของคุณ (Priority)</div>
@@ -921,16 +866,26 @@ function renderApp() {
         <div class="qp-label">รถรออยู่ข้างหน้า</div>
         <div class="qp-val">${ahead} คัน</div>
       </div>
+    </div>` : (status === 'wait' && isOutside) ? `
+    <div class="queue-pos">
+      <div class="qp-box">
+        <div class="qp-label">คิวเดิมของคุณ</div>
+        <div class="qp-val" style="color:var(--outside-txt)">${origQ||'—'}</div>
+      </div>
+      <div class="qp-box">
+        <div class="qp-label">รอข้างนอก</div>
+        <div class="qp-val" style="color:var(--outside-txt)">${countOutside(todayRows)} คัน</div>
+      </div>
     </div>` : '';
 
-  const goodsCardHTML   = renderGoodsCard(plate, goods, status);
-  const parkingHTML     = renderParkingLots(todayRows, goods);
-  const bigQueueHTML    = renderBigQueue(effectiveQ, origQ, status, ahead);
-  const priorityInfoHTML = status === 'wait' ? renderPriorityInfo(tier, effectiveQ, origQ) : '';
+  const bigQueueHTML     = renderBigQueue(effectiveQ, origQ, status, ahead, isOutside);
+  const priorityInfoHTML = (status === 'wait' && !isOutside) ? renderPriorityInfo(tier, effectiveQ, origQ) : '';
+  const goodsCardHTML    = renderGoodsCard(plate, goods, status);
+  const parkingHTML      = renderParkingSection(todayRows, goods, isOutside);
 
   document.getElementById('appBody').innerHTML = `
     ${bigQueueHTML}
-    ${statusCards[status]}
+    ${statusCardHTML}
     ${priorityInfoHTML}
     ${queueCards}
     ${goodsCardHTML}
@@ -948,6 +903,12 @@ function renderApp() {
         <div class="time-row">
           <span class="time-key">เบอร์โทร</span>
           <span class="time-val ${phone?'':'empty'}">${phone||'ยังไม่ระบุ'}</span>
+        </div>
+        <div class="time-row">
+          <span class="time-key">สถานะจอด</span>
+          <span class="time-val" style="color:${isOutside?'var(--outside-txt)':enteredLot?'var(--done-txt)':'var(--muted)'}">
+            ${isOutside ? '🚗 รอข้างนอก' : enteredLot ? '🅿️ จอดในลานแล้ว' : '—'}
+          </span>
         </div>
       </div>
     </div>
@@ -973,50 +934,48 @@ function renderApp() {
 }
 
 // ── BIG QUEUE NUMBER ──
-function renderBigQueue(effectiveQ, origQ, status, ahead) {
+function renderBigQueue(effectiveQ, origQ, status, ahead, isOutside) {
+  let numCls  = status === 'done' ? 'done' : status === 'slot' ? 'slot' : isOutside ? 'outside' : 'wait';
   let pillHTML = '';
-  if (status === 'wait') {
-    if (ahead === 0) {
-      pillHTML = `<div class="bq-pill next">🎉 คุณเป็นคิวถัดไป!</div>`;
-    } else {
-      pillHTML = `<div class="bq-pill wait">รอ ${ahead} คัน ก่อนถึงคุณ</div>`;
-    }
+
+  if (status === 'done') {
+    pillHTML = `<div class="bq-pill done">✅ เสร็จสิ้นแล้ว</div>`;
   } else if (status === 'slot') {
     pillHTML = `<div class="bq-pill slot">🅿️ กำลังเข้าช่องโหลดของ</div>`;
+  } else if (isOutside) {
+    pillHTML = `<div class="bq-pill outside">🚗 รอข้างนอก — รอเรียกเข้าลาน</div>`;
+  } else if (ahead === 0) {
+    pillHTML = `<div class="bq-pill next">🎉 คุณเป็นคิวถัดไป!</div>`;
   } else {
-    pillHTML = `<div class="bq-pill done">✅ เสร็จสิ้นแล้ว</div>`;
+    pillHTML = `<div class="bq-pill wait">รอ ${ahead} คัน ก่อนถึงคุณ</div>`;
   }
 
-  // Show original queue number as footnote when waiting (so driver can relate to physical ticket)
-  const origNote = (status === 'wait' && origQ && origQ !== String(effectiveQ))
-    ? `<div class="bq-orig">หมายเลขบัตรคิวเดิม: ${origQ}</div>`
-    : '';
+  const displayNum = isOutside ? (origQ||'—') : (status === 'wait' ? effectiveQ : (origQ||'—'));
+  const eyebrow    = isOutside ? 'คิวเดิมของคุณ' : status === 'wait' ? 'ลำดับเข้าช่องจริง (Priority)' : 'หมายเลขคิว';
+  const origNote   = (!isOutside && status === 'wait' && origQ && origQ !== String(effectiveQ))
+    ? `<div class="bq-orig">หมายเลขบัตรคิวเดิม: ${origQ}</div>` : '';
 
   return `
   <div class="big-queue-card">
-    <div class="bq-eyebrow">ลำดับเข้าช่องจริง (Priority)</div>
-    <div class="bq-num ${status}">${status === 'wait' ? effectiveQ : (origQ||'—')}</div>
+    <div class="bq-eyebrow">${eyebrow}</div>
+    <div class="bq-num ${numCls}">${displayNum}</div>
     ${pillHTML}
     ${origNote}
   </div>`;
 }
 
-// ── PRIORITY INFO CARD ──
+// ── PRIORITY INFO ──
 function renderPriorityInfo(tier, effectiveQ, origQ) {
   const tierLabels = [
-    { cls: 't1', label: '1. B2B (สูงสุด)' },
-    { cls: 't2', label: '2. Fresh / U1' },
-    { cls: 't3', label: '3. SME / Focus' },
-    { cls: 't4', label: '4. Normal' },
+    { cls:'t1', label:'1. B2B (สูงสุด)' },
+    { cls:'t2', label:'2. Fresh / U1' },
+    { cls:'t3', label:'3. SME / Focus' },
+    { cls:'t4', label:'4. Normal' },
   ];
-  const tiers = tierLabels.map(t =>
-    `<span class="pi-tier ${t.cls}">${t.label}</span>`
-  ).join('');
-
+  const tiers = tierLabels.map(t => `<span class="pi-tier ${t.cls}">${t.label}</span>`).join('');
   const changedNote = (origQ && origQ !== String(effectiveQ))
     ? `คิวของคุณเปลี่ยนจาก <strong>${origQ}</strong> → <strong>${effectiveQ}</strong> ตาม priority`
     : `คิวของคุณ <strong>${effectiveQ}</strong> อยู่ใน tier ที่ถูกต้องแล้ว`;
-
   return `
   <div class="priority-info-card">
     <div class="pi-icon">⚡</div>
@@ -1028,94 +987,77 @@ function renderPriorityInfo(tier, effectiveQ, origQ) {
   </div>`;
 }
 
-// ── GOODS / UNLOAD STATUS CARD ──
+// ── GOODS CARD ──
 function renderGoodsCard(plate, goods, status) {
   const stopsRow = getStopsRow(plate);
-
   if (status === 'wait' || !stopsRow) {
     const badges = goods
       ? parseGoodsList(goods).map(g => `<span class="gbadge ${GOODS_CLS[g]||'normal'}">${g}</span>`).join('')
       : `<span class="no-goods">ยังไม่ระบุสินค้า</span>`;
-    return `
-    <div class="card">
-      <div class="card-label">สินค้าในรถ</div>
-      <div class="goods-list">${badges}</div>
-    </div>`;
+    return `<div class="card"><div class="card-label">สินค้าในรถ</div><div class="goods-list">${badges}</div></div>`;
   }
 
-  const total = parseGoodsList(gv(stopsRow, 'ต้องลง'));
-  const done  = parseGoodsList(gv(stopsRow, 'ลงแล้ว'));
-
+  const total = parseGoodsList(gv(stopsRow,'ต้องลง'));
+  const done  = parseGoodsList(gv(stopsRow,'ลงแล้ว'));
   let allItems, doneItems, pendingItems;
   if (status === 'done') {
     allItems = total.length ? total : (done.length ? done : parseGoodsList(goods));
-    pendingItems = [];
-    doneItems = allItems;
+    pendingItems = []; doneItems = allItems;
   } else {
     allItems = total.length ? total : parseGoodsList(goods);
     pendingItems = allItems.filter(g => !done.includes(g));
-    doneItems = allItems.filter(g => done.includes(g));
+    doneItems    = allItems.filter(g =>  done.includes(g));
   }
 
   const summaryHTML = `
   <div class="goods-summary">
-    <div class="gs-box gs-pending">
-      <div class="gs-val">${pendingItems.length}</div>
-      <div class="gs-lbl">รอลงอีก</div>
-    </div>
-    <div class="gs-box gs-done">
-      <div class="gs-val">${doneItems.length}</div>
-      <div class="gs-lbl">ลงแล้ว</div>
-    </div>
-    <div class="gs-box gs-total">
-      <div class="gs-val">${allItems.length}</div>
-      <div class="gs-lbl">ทั้งหมด</div>
-    </div>
+    <div class="gs-box gs-pending"><div class="gs-val">${pendingItems.length}</div><div class="gs-lbl">รอลงอีก</div></div>
+    <div class="gs-box gs-done"><div class="gs-val">${doneItems.length}</div><div class="gs-lbl">ลงแล้ว</div></div>
+    <div class="gs-box gs-total"><div class="gs-val">${allItems.length}</div><div class="gs-lbl">ทั้งหมด</div></div>
   </div>`;
 
-  const itemsHTML = pendingItems.map(g => goodsStatusItem(g, false)).join('')
-                  + doneItems.map(g => goodsStatusItem(g, true)).join('');
+  const itemsHTML = pendingItems.map(g => goodsItem(g,false)).join('')
+                  + doneItems.map(g => goodsItem(g,true)).join('');
 
-  return `
-  <div class="card">
-    <div class="card-label">สถานะการลงสินค้า</div>
-    ${summaryHTML}
-    <div class="goods-status-list">${itemsHTML}</div>
-  </div>`;
+  return `<div class="card"><div class="card-label">สถานะการลงสินค้า</div>${summaryHTML}<div class="goods-status-list">${itemsHTML}</div></div>`;
 }
 
-function goodsStatusItem(g, isDone) {
+function goodsItem(g, isDone) {
   const cls = GOODS_CLS[g] || 'normal';
-  if (isDone) {
-    return `
-    <div class="gstatus-item done">
-      <span class="gbadge ${cls} faded">${g}</span>
-      <span class="gstatus-tag done">✓ ลงแล้ว</span>
-    </div>`;
-  }
-  return `
-  <div class="gstatus-item pending">
-    <span class="gbadge ${cls}">${g}</span>
-    <span class="gstatus-tag pending">รอลง</span>
-  </div>`;
+  return isDone
+    ? `<div class="gstatus-item done"><span class="gbadge ${cls} faded">${g}</span><span class="gstatus-tag done">✓ ลงแล้ว</span></div>`
+    : `<div class="gstatus-item pending"><span class="gbadge ${cls}">${g}</span><span class="gstatus-tag pending">รอลง</span></div>`;
 }
 
-function updateTrack(status) {
-  const steps  = ['dot0','dot1','dot2'];
-  const lines  = ['line0','line1'];
-  const labels = ['lbl0','lbl1','lbl2'];
-  const stepIdx = status==='wait' ? 0 : status==='slot' ? 1 : 2;
+// ── TRACK (4 steps) ──
+// step: 0=outside, 1=inLot, 2=slot, 3=done
+function updateTrack(step) {
+  const dots   = ['dot0','dot1','dot2','dot3'];
+  const lines  = ['line0','line1','line2'];
+  const labels = ['lbl0','lbl1','lbl2','lbl3'];
 
-  steps.forEach((id,i) => {
+  dots.forEach((id,i) => {
     const el = document.getElementById(id);
-    el.className = 'step-dot' + (i < stepIdx ? ' done' : i === stepIdx ? ' active' : '');
-    el.textContent = i < stepIdx ? '✓' : i+1;
+    if (i < step) {
+      el.className = 'step-dot done';
+      el.textContent = '✓';
+    } else if (i === step) {
+      el.className = i === 0 ? 'step-dot outside' : 'step-dot active';
+      el.textContent = i+1;
+    } else {
+      el.className = 'step-dot';
+      el.textContent = i+1;
+    }
     const lbl = document.getElementById(labels[i]);
-    lbl.className = 'step-label' + (i < stepIdx ? ' done' : i === stepIdx ? ' active' : '');
+    lbl.className = 'step-label' + (i < step ? ' done' : i === step ? (i===0?' outside':' active') : '');
   });
   lines.forEach((id,i) => {
-    document.getElementById(id).className = 'step-line' + (i < stepIdx ? ' done' : '');
+    document.getElementById(id).className = 'step-line' + (i < step ? ' done' : '');
   });
+}
+
+function countOutside(todayRows) {
+  return todayRows.filter(r => getStatus(r) !== 'done' && !getEnteredLot(r)).length;
 }
 
 function showToast(msg, type='') {
