@@ -97,14 +97,6 @@
     background: linear-gradient(90deg, var(--dhl-yellow) 0% 65%, var(--accent) 65% 100%);
   }
   #scanScreen .brand-stripe { position: absolute; top: 0; left: 0; }
-  .dhl-logo-box {
-    display: inline-flex; align-items: center; justify-content: center;
-    background: var(--accent); color: var(--dhl-yellow);
-    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 800;
-    font-size: 22px; letter-spacing: 1px;
-    padding: 10px 18px; border-radius: 8px;
-  }
-  .dhl-logo-box.small { font-size: 13px; padding: 5px 9px; border-radius: 6px; flex-shrink: 0; }
 
   #scanScreen {
     position: fixed; inset: 0; background: var(--bg);
@@ -195,7 +187,6 @@
   .bq-pill.done    { background: var(--done-bg);    color: var(--done-txt);    border-color: var(--done-bdr); }
   .bq-orig { font-size: 11px; color: var(--muted); margin-top: 6px; }
 
-  /* ── Outside parking banner ── */
   .outside-banner {
     border-radius: 16px; padding: 18px 16px; margin-bottom: 12px;
     border: 1.5px solid var(--outside-bdr);
@@ -289,7 +280,6 @@
   .toast.ok  { border-color: var(--done-bdr); color: var(--done-txt); }
   .toast.err { border-color: #f87171; color: #f87171; }
 
-  /* Parking lots */
   .lot-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; overflow: hidden; transition: background .3s, border-color .3s; }
   .lot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .lot-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
@@ -314,7 +304,6 @@
   .my-lot-highlight { border-color: var(--accent) !important; }
   .my-lot-badge { font-size: 10px; font-weight: 700; color: var(--accent2); background: rgba(212,5,17,.15); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(212,5,17,.3); }
 
-  /* Outside lot */
   .outside-lot-card {
     background: var(--outside-bg); border: 1.5px solid var(--outside-bdr);
     border-radius: 16px; padding: 14px 16px; margin-bottom: 10px;
@@ -326,7 +315,6 @@
   .outside-lot-lbl   { font-size: 10px; color: var(--sub); }
   .outside-lot-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--outside-txt); background: rgba(236,72,153,.1); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--outside-bdr); }
 
-  /* Priority info */
   .priority-info-card { border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; border: 1.5px solid rgba(59,130,246,.3); background: rgba(59,130,246,.07); display: flex; align-items: flex-start; gap: 12px; }
   .pi-icon  { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
   .pi-title { font-size: 13px; font-weight: 700; color: var(--slot-txt); margin-bottom: 3px; }
@@ -350,7 +338,6 @@
   <div class="scan-topbar">
     <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleScan" title="สลับโหมด">🌙</button>
   </div>
-  <div class="dhl-logo-box">DHL</div>
   <div class="scan-logo">Transport Driver Portal</div>
   <div class="scan-title">ค้นหาคิวรถของคุณ</div>
   <div class="scan-sub">กรอกเลขทะเบียนรถเพื่อดูสถานะคิว</div>
@@ -373,7 +360,6 @@
   <div class="header">
     <div class="header-top">
       <div class="header-left">
-        <div class="dhl-logo-box small">DHL</div>
         <div class="header-plate" id="hPlate">—</div>
         <div class="header-queue" id="hQueue">คิว —</div>
         <div id="hPriorityBadge"></div>
@@ -457,7 +443,6 @@ const PRIORITY_LABELS = {
 };
 
 function buildPriorityQueue(todayRows) {
-  // นับเฉพาะรถที่รอในลาน (wait + เข้าจอดแล้ว) สำหรับ effective queue
   const waitRows = todayRows.filter(r => getStatus(r) === 'wait');
   const enriched = waitRows.map(r => {
     const goods   = gv(r, 'สินค้า');
@@ -515,18 +500,16 @@ function getNextCapTime(lot) {
   return next ? `${next.fromHour}:00 จอดได้ ${next.cap} คัน` : null;
 }
 
-// ✅ นับเฉพาะรถที่ เข้าจอด = TRUE และยังไม่เสร็จ
 function countLotUsed(lot, todayRows) {
   return todayRows.filter(r => {
     if (getStatus(r) === 'done') return false;
-    if (!getEnteredLot(r)) return false;   // ✅ ข้ามรถที่จอดข้างนอก
+    if (!getEnteredLot(r)) return false;
     const goods = gv(r, 'สินค้า');
     if (!goods) return false;
     return goods.split(/\s*,\s*/).some(g => lot.types.includes(g.trim()));
   }).length;
 }
 
-// นับรถที่จอดข้างนอก (เข้าจอด = FALSE และยังไม่เสร็จ)
 function countOutside(todayRows) {
   return todayRows.filter(r => {
     if (getStatus(r) === 'done') return false;
@@ -582,7 +565,6 @@ function renderParkingSection(todayRows, myGoods, isOutside) {
     </div>`;
   }).join('');
 
-  // Outside lot card (จอดข้างนอก ไม่จำกัด)
   const outsideHTML = `
   <div class="outside-lot-card">
     <div class="outside-lot-title">
@@ -645,7 +627,6 @@ function todayKey() {
   return `${n.getDate()}/${n.getMonth()+1}/${y}`;
 }
 
-// อ่านสถานะจาก col I สถานะปัจจุบัน
 function getStatus(r) {
   const st = gv(r, 'สถานะปัจจุบัน', 'สถานะ');
   if (st) {
@@ -653,7 +634,6 @@ function getStatus(r) {
     if (st.includes('เข้าช่อง') || st.includes('กำลังลง') || /Stop\s*\d+/i.test(st)) return 'slot';
     if (st.includes('รอ'))     return 'wait';
   }
-  // fallback
   const done = gv(r, 'เวลาลงของเสร็จ');
   const slot = gv(r, 'เวลาเข้าช่อง');
   if (done && done !== 'FALSE') return 'done';
@@ -661,12 +641,10 @@ function getStatus(r) {
   return 'wait';
 }
 
-// ✅ อ่าน col J "เข้าจอด" TRUE = จอดในลานแล้ว, FALSE = ยังข้างนอก
 function getEnteredLot(r) {
   const v = r['เข้าจอด'];
   if (v === true || v === 'TRUE' || v === 'true') return true;
   if (v === false || v === 'FALSE' || v === 'false') return false;
-  // ถ้าไม่มีคอลัม → ถือว่าเข้าแล้ว (backward compat)
   return true;
 }
 
@@ -771,7 +749,7 @@ function renderApp() {
     document.getElementById('hPlate').textContent = currentPlate.toUpperCase();
     document.getElementById('hQueue').textContent = 'ไม่พบคิว';
     document.getElementById('hPriorityBadge').innerHTML = '';
-    updateTrack('outside'); // default step 0
+    updateTrack('outside');
     document.getElementById('appBody').innerHTML = `
       <div class="not-found">
         <div class="nf-icon">🔍</div>
@@ -783,7 +761,7 @@ function renderApp() {
   }
 
   const status     = getStatus(row);
-  const enteredLot = getEnteredLot(row);  // ✅ TRUE = ในลาน, FALSE = ข้างนอก
+  const enteredLot = getEnteredLot(row);
   const isOutside  = (status === 'wait') && !enteredLot;
 
   const plate = gv(row, 'เลขทะเบียนรถ');
@@ -796,13 +774,11 @@ function renderApp() {
   const tDone = fmtTime(gv(row, 'เวลาลงของเสร็จ'));
   const tier  = getPriorityTier(goods);
 
-  // Priority queue (เฉพาะรถที่อยู่ในลาน เพื่อ effective queue ที่แม่นยำ)
   const pQueue  = buildPriorityQueue(todayRows);
   const myEntry = pQueue.find(e => e.plate === plate);
   const effectiveQ = myEntry ? myEntry.effectiveQ : (parseInt(origQ) || '—');
   const ahead      = myEntry ? myEntry.effectiveQ - 1 : 0;
 
-  // Header
   document.getElementById('hPlate').textContent = plate;
   const displayQ = status === 'wait' ? effectiveQ : (parseInt(origQ) || '—');
   document.getElementById('hQueue').textContent = `คิว ${displayQ}`;
@@ -810,11 +786,9 @@ function renderApp() {
   document.getElementById('hPriorityBadge').innerHTML =
     `<span class="priority-badge ${pl.cls}">${pl.label}</span>`;
 
-  // ✅ track step: outside(0) → inLot(1) → slot(2) → done(3)
   const trackStep = status === 'done' ? 3 : status === 'slot' ? 2 : isOutside ? 0 : 1;
   updateTrack(trackStep);
 
-  // Status card
   let statusCardHTML = '';
   if (status === 'done') {
     statusCardHTML = `<div class="status-card done">
@@ -831,7 +805,6 @@ function renderApp() {
         <div class="status-desc">กำลังดำเนินการโหลดสินค้า</div>
       </div></div>`;
   } else if (isOutside) {
-    // รอข้างนอก
     statusCardHTML = `
     <div class="outside-banner">
       <div class="outside-icon">🚗</div>
@@ -846,7 +819,6 @@ function renderApp() {
       </div>
     </div>`;
   } else {
-    // รอในลาน (เข้าจอดแล้ว)
     statusCardHTML = `<div class="status-card wait">
       <div class="status-icon">⏳</div>
       <div class="status-info">
@@ -855,7 +827,6 @@ function renderApp() {
       </div></div>`;
   }
 
-  // Queue position cards
   const queueCards = (status === 'wait' && !isOutside) ? `
     <div class="queue-pos">
       <div class="qp-box">
@@ -1030,7 +1001,6 @@ function goodsItem(g, isDone) {
 }
 
 // ── TRACK (4 steps) ──
-// step: 0=outside, 1=inLot, 2=slot, 3=done
 function updateTrack(step) {
   const dots   = ['dot0','dot1','dot2','dot3'];
   const lines  = ['line0','line1','line2'];
