@@ -403,7 +403,7 @@
     <div class="status-track">
       <div class="status-step">
         <div class="step-dot" id="dot0">1</div>
-        <div class="step-label" id="lbl0">รอข้างนอก</div>
+        <div class="step-label" id="lbl0">รอนอกพื้นที่</div>
       </div>
       <div class="step-line" id="line0"></div>
       <div class="status-step">
@@ -462,7 +462,7 @@ const GOODS_CLS = { Normal:'normal', SME:'sme', Fresh:'fresh', B2B:'b2b', Focus:
 // โทรหาแผนกควบคุมลาน — เปลี่ยนเบอร์ตรงนี้ให้เป็นเบอร์จริงของแผนก
 const DEPT_PHONE         = '021234567';
 const DEPT_PHONE_DISPLAY = '02-123-4567';
-// จำนวนนาทีที่ต้องรอข้างนอกก่อนปุ่มโทรจะปรากฏ
+// จำนวนนาทีที่ต้องรอนอกพื้นที่ก่อนปุ่มโทรจะปรากฏ
 const LONG_WAIT_THRESHOLD_MIN = 60;
 
 // ── PRIORITY ──
@@ -607,7 +607,7 @@ function renderParkingSection(todayRows, myGoods, isOutside) {
   const outsideHTML = `
   <div class="outside-lot-card">
     <div class="outside-lot-title">
-      🚗 จุดจอดรอข้างนอก
+      🚗 จุดจอดรอนอกพื้นที่
       ${isOutside ? '<span class="my-lot-badge" style="background:rgba(236,72,153,.15);color:var(--outside-txt);border-color:var(--outside-bdr)">✦ คุณอยู่ที่นี่</span>' : ''}
     </div>
     <div class="outside-lot-sub">จอดรอนอกคลังก่อน — เจ้าหน้าที่จะเรียกเข้าเมื่อมีที่ว่างในลาน (ไม่จำกัดความจุ)</div>
@@ -860,7 +860,7 @@ function renderApp() {
     <div class="outside-banner">
       <div class="outside-icon">🚗</div>
       <div style="flex:1">
-        <div class="outside-main">จอดรอข้างนอกก่อน</div>
+        <div class="outside-main">จอดรอนอกพื้นที่ก่อน</div>
         <div class="outside-desc">ลานจอดในคลังยังเต็มอยู่<br>กรุณาจอดรอบริเวณข้างนอกก่อน เจ้าหน้าที่จะเรียกเข้าเมื่อมีที่ว่าง</div>
         <div class="outside-steps">
           <div class="outside-step"><span class="outside-step-num">1</span> จอดรถรอบริเวณข้างนอกอาคาร</div>
@@ -900,7 +900,7 @@ function renderApp() {
         <div class="qp-val" style="color:var(--outside-txt)">${origQ||'—'}</div>
       </div>
       <div class="qp-box">
-        <div class="qp-label">รอข้างนอก</div>
+        <div class="qp-label">รอนอกพื้นที่</div>
         <div class="qp-val" style="color:var(--outside-txt)">${countOutside(todayRows)} คัน</div>
       </div>
     </div>` : '';
@@ -935,7 +935,7 @@ function renderApp() {
         <div class="time-row">
           <span class="time-key">สถานะจอด</span>
           <span class="time-val" style="color:${isOutside?'var(--outside-txt)':enteredLot?'var(--done-txt)':'var(--muted)'}">
-            ${isOutside ? '🚗 รอข้างนอก' : enteredLot ? '🅿️ จอดในลานแล้ว' : '—'}
+            ${isOutside ? '🚗 รอนอกพื้นที่' : enteredLot ? '🅿️ จอดในลานแล้ว' : '—'}
           </span>
         </div>
       </div>
@@ -971,7 +971,7 @@ function renderBigQueue(effectiveQ, origQ, status, ahead, isOutside) {
   } else if (status === 'slot') {
     pillHTML = `<div class="bq-pill slot">🅿️ กำลังเข้าช่องโหลดของ</div>`;
   } else if (isOutside) {
-    pillHTML = `<div class="bq-pill outside">🚗 รอข้างนอก — รอเรียกเข้าลาน</div>`;
+    pillHTML = `<div class="bq-pill outside">🚗 รอนอกพื้นที่ — รอเรียกเข้าลาน</div>`;
   } else if (ahead === 0) {
     pillHTML = `<div class="bq-pill next">🎉 คุณเป็นคิวถัดไป!</div>`;
   } else {
